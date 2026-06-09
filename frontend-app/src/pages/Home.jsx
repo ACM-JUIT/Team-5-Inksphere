@@ -2,6 +2,7 @@ import Navbar from "../components/Navbar";
 import HeroSection from "../components/HeroSection";
 import Categories from "../components/Categories";
 import BlogCard from "../components/BlogCard";
+import Footer from "../components/Footer";
 
 function Home() {
   return (
@@ -11,12 +12,16 @@ function Home() {
       <HeroSection />
 
       <Categories />
+      
 
-      <h2>Latest Blogs</h2>
+      <h2 className="section-title">Latest Blogs</h2>
 
-      <BlogCard />
-      <BlogCard />
-      <BlogCard />
+      <div className="blog-container">
+        <BlogCard />
+        <BlogCard />
+        <BlogCard />
+      </div>
+      <Footer />
     </div>
   );
 }

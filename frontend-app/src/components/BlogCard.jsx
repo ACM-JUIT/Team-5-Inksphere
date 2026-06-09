@@ -1,15 +1,25 @@
+import { Link } from "react-router-dom";
+
 function BlogCard() {
   return (
     <div className="blog-card">
-      <h3>Getting Started with React</h3>
+      <img
+        src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=600"
+        alt="blog"
+      />
 
-      <p>
-        This is a sample blog description.
-      </p>
+      <h3>Blog Title</h3>
 
-      <p>Category: Tech</p>
+      <p>Description of the blog.</p>
 
-      <button>Read More</button>
+      <span>Category</span>
+
+      <br />
+      <br />
+
+      <Link to="/blog">
+        <button>Read More</button>
+      </Link>
     </div>
   );
 }

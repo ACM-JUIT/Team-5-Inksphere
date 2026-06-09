@@ -5,21 +5,23 @@ function Login() {
     <div>
       <Navbar />
 
-      <h1>Login</h1>
+      <div className="login-container">
+        <h1>Login</h1>
 
-      <form>
-        <input type="email" placeholder="Enter Email" />
+        <form className="login-form">
+          <input
+            type="email"
+            placeholder="Enter Email"
+          />
 
-        <br />
-        <br />
+          <input
+            type="password"
+            placeholder="Enter Password"
+          />
 
-        <input type="password" placeholder="Enter Password" />
-
-        <br />
-        <br />
-
-        <button>Login</button>
-      </form>
+          <button>Login</button>
+        </form>
+      </div>
     </div>
   );
 }

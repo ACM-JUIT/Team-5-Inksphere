@@ -1,8 +1,6 @@
 function Categories() {
   return (
-    <div>
-      <h2>Categories</h2>
-
+    <div className="categories">
       <button>Tech</button>
       <button>Travel</button>
       <button>Lifestyle</button>

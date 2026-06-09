@@ -5,26 +5,28 @@ function Register() {
     <div>
       <Navbar />
 
-      <h1>Register</h1>
+      <div className="register-container">
+        <h1>Register</h1>
 
-      <form>
-        <input type="text" placeholder="Enter Name" />
+        <form className="register-form">
+          <input
+            type="text"
+            placeholder="Enter Name"
+          />
 
-        <br />
-        <br />
+          <input
+            type="email"
+            placeholder="Enter Email"
+          />
 
-        <input type="email" placeholder="Enter Email" />
+          <input
+            type="password"
+            placeholder="Enter Password"
+          />
 
-        <br />
-        <br />
-
-        <input type="password" placeholder="Enter Password" />
-
-        <br />
-        <br />
-
-        <button>Register</button>
-      </form>
+          <button>Register</button>
+        </form>
+      </div>
     </div>
   );
 }
