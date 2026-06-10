@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function BlogCard() {
+function BlogCard({ title, description, category }) {
   return (
     <div className="blog-card">
       <img
@@ -8,11 +8,11 @@ function BlogCard() {
         alt="blog"
       />
 
-      <h3>Blog Title</h3>
+      <h3>{title}</h3>
 
-      <p>Description of the blog.</p>
+      <p>{description}</p>
 
-      <span>Category</span>
+      <span>{category}</span>
 
       <br />
       <br />
