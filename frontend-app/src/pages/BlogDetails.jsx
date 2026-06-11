@@ -7,7 +7,7 @@ function BlogDetails() {
 
       <div className="blog-details">
         <img
-          src="https://via.placeholder.com/900x400"
+          src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1200"
           alt="blog"
         />
 

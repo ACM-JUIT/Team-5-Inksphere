@@ -4,6 +4,7 @@ import HeroSection from "../components/HeroSection";
 import Categories from "../components/Categories";
 import BlogCard from "../components/BlogCard";
 import Footer from "../components/Footer";
+import blogs from "../data/blogs";
 
 function Home() {
   const [activeCategory, setActiveCategory] = useState("All");

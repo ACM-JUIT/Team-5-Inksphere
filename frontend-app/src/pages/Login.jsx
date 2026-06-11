@@ -20,8 +20,13 @@ function Login() {
     const passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
 
-    if (!email || !password) {
-      setError("Please fill all fields");
+    if (!email) {
+      setError("Email is required");
+      return;
+    }
+
+    if (!password) {
+      setError("Password is required");
       return;
     }
 

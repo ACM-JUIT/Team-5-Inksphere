@@ -23,8 +23,23 @@ function Register() {
     const passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
 
-    if (!name || !email || !password || !confirmPassword) {
-      setError("Please fill all fields");
+    if (!name) {
+      setError("Name is required");
+      return;
+    }
+
+    if (!email) {
+      setError("Email is required");
+      return;
+    }
+
+    if (!password) {
+      setError("Password is required");
+      return;
+    }
+
+    if (!confirmPassword) {
+      setError("Confirm Password is required");
       return;
     }
 
