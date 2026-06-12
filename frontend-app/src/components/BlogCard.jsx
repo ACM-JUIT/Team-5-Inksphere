@@ -1,10 +1,16 @@
 import { Link } from "react-router-dom";
 
-function BlogCard({ title, description, category }) {
+function BlogCard({
+  id,
+  title,
+  description,
+  category,
+  image,
+}) {
   return (
     <div className="blog-card">
       <img
-        src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=600"
+        src={image}
         alt="blog"
       />
 
@@ -17,7 +23,7 @@ function BlogCard({ title, description, category }) {
       <br />
       <br />
 
-      <Link to="/blog">
+      <Link to={`/blog/${id}`}>
         <button>Read More</button>
       </Link>
     </div>

@@ -1,23 +1,42 @@
-import Navbar from "../components/Navbar";
+import { useParams } from "react-router-dom";
+import blogs from "../data/blogs";
 
 function BlogDetails() {
+  const { id } = useParams();
+
+  const blog = blogs.find(
+    (blog) => blog.id === Number(id)
+  );
+
+  if (!blog) {
+    return (
+      <div>
+        <div className="blog-details">
+          <h1>Blog Not Found</h1>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
-      <Navbar />
-
       <div className="blog-details">
         <img
-          src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1200"
+          src={blog.image}
           alt="blog"
         />
 
-        <h1>Blog Title</h1>
+        <h1>{blog.title}</h1>
 
-        <p className="blog-category">Category</p>
+        <p className="blog-category">
+          {blog.category}
+        </p>
 
-        <p>Description of the blog.</p>
+        <p>{blog.description}</p>
 
-        <p>Full blog content will appear here.</p>
+        <p>
+          Full blog content will appear here.
+        </p>
       </div>
     </div>
   );

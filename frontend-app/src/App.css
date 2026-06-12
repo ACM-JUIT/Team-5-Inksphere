@@ -427,6 +427,43 @@ body {
   margin: 0 auto 20px;
 }
 
+.nav-icon {
+  font-size: 20px;
+  cursor: pointer;
+  color: #222;
+  transition: 0.3s;
+}
+
+.nav-icon:hover {
+  transform: scale(1.1);
+}
+
+.nav-search {
+  width: 180px;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  outline: none;
+  font-size: 14px;
+}
+
+.close-search {
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  user-select: none;
+}
+
+.search-dropdown {
+  position: absolute;
+  top: 70px;
+  right: 70px;
+  background: white;
+  padding: 10px;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
@@ -450,7 +487,8 @@ body {
   }
 
   .hero-section {
-    padding: 50px 20px 30px;
+    text-align: center;
+    padding: 60px 20px 10px;
   }
 
   .hero-section h1 {

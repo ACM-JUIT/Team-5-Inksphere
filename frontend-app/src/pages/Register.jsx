@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import Navbar from "../components/Navbar";
 
 function Register() {
   const navigate = useNavigate();
@@ -74,8 +73,6 @@ function Register() {
 
   return (
     <div>
-      <Navbar />
-
       <div className="register-container">
         <h1>Register</h1>
 

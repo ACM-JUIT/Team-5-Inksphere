@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import Navbar from "../components/Navbar";
 
 function Login() {
   const navigate = useNavigate();
@@ -53,8 +52,6 @@ function Login() {
 
   return (
     <div>
-      <Navbar />
-
       <div className="login-container">
         <h1>Login</h1>
 

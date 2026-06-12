@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
 
 function CreateBlog() {
   const navigate = useNavigate();
@@ -39,8 +38,6 @@ function CreateBlog() {
 
   return (
     <div>
-      <Navbar />
-
       <div className="create-blog">
         <h1>Create Blog</h1>
 

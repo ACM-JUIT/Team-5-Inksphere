@@ -7,15 +7,19 @@ import Profile from "../pages/Profile";
 import CreateBlog from "../pages/CreateBlog";
 import BlogDetails from "../pages/BlogDetails";
 
-function AppRoutes() {
+function AppRoutes({ searchTerm }) {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route
+        path="/"
+        element={<Home searchTerm={searchTerm} />}
+      />
+
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/create-blog" element={<CreateBlog />} />
-      <Route path="/blog" element={<BlogDetails />} />
+      <Route path="/blog/:id" element={<BlogDetails />} />
     </Routes>
   );
 }

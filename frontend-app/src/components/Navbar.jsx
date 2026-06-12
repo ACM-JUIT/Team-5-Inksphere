@@ -1,11 +1,16 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { FaSearch, FaPlus } from "react-icons/fa";
+import { useState } from "react";
 
-function Navbar() {
+function Navbar({ searchTerm, setSearchTerm }) {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const [showSearch, setShowSearch] = useState(false);
 
   return (
     <nav className="navbar">
-      <Link to="/">
+      <Link to="/" className="logo-link">
         <h2>InkSphere</h2>
       </Link>
 
@@ -38,12 +43,32 @@ function Navbar() {
           Profile
         </Link>
 
-        <Link
-          to="/create-blog"
-          className={location.pathname === "/create-blog" ? "active" : ""}
-        >
-          Create Blog
-        </Link>
+        <div className="search-wrapper">
+          <FaSearch
+            className="nav-icon"
+            onClick={() => setShowSearch(!showSearch)}
+          />
+
+          {showSearch && (
+            <div className="search-dropdown">
+              <input
+                type="text"
+                placeholder="Search blogs..."
+                className="nav-search"
+                value={searchTerm}
+                onChange={(e) =>
+                  setSearchTerm(e.target.value)
+                }
+                autoFocus
+              />
+            </div>
+          )}
+        </div>
+
+        <FaPlus
+          className="nav-icon"
+          onClick={() => navigate("/create-blog")}
+        />
       </div>
     </nav>
   );

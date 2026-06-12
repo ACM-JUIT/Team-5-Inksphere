@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Navbar from "../components/Navbar";
 
 function Profile() {
   const [isEditing, setIsEditing] = useState(false);
@@ -54,8 +53,6 @@ function Profile() {
 
   return (
     <div>
-      <Navbar />
-
       <div className="profile-container">
         <div className="profile-card">
           {profileImage ? (
