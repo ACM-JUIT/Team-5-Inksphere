@@ -34,22 +34,30 @@ function Home({ searchTerm }) {
       />
 
       <h2 className="section-title">
-        {filteredBlogs.length > 0
-          ? "Latest Blogs"
-          : "No Blogs Found"}
+        Latest Blogs
       </h2>
 
       <div className="blog-container">
-        {filteredBlogs.map((blog) => (
-          <BlogCard
-            key={blog.id}
-            id={blog.id}
-            title={blog.title}
-            description={blog.description}
-            category={blog.category}
-            image={blog.image}
-          />
-        ))}
+        {filteredBlogs.length > 0 ? (
+          filteredBlogs.map((blog) => (
+            <BlogCard
+              key={blog.id}
+              id={blog.id}
+              title={blog.title}
+              description={blog.description}
+              category={blog.category}
+              image={blog.image}
+            />
+          ))
+        ) : (
+          <div className="no-blogs">
+            <h2>No Blogs Found</h2>
+
+            <p>
+              Try another category or search term.
+            </p>
+          </div>
+        )}
       </div>
 
       <Footer />

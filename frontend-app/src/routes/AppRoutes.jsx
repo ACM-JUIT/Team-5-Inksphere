@@ -6,6 +6,7 @@ import Register from "../pages/Register";
 import Profile from "../pages/Profile";
 import CreateBlog from "../pages/CreateBlog";
 import BlogDetails from "../pages/BlogDetails";
+import NotFound from "../pages/NotFound";
 
 function AppRoutes({ searchTerm }) {
   return (
@@ -20,6 +21,7 @@ function AppRoutes({ searchTerm }) {
       <Route path="/profile" element={<Profile />} />
       <Route path="/create-blog" element={<CreateBlog />} />
       <Route path="/blog/:id" element={<BlogDetails />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
