@@ -5,14 +5,23 @@ function CreateBlog({ blogs, setBlogs }) {
   const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
+  const [description, setDescription] =
+    useState("");
   const [category, setCategory] = useState("");
+  const [image, setImage] = useState("");
   const [content, setContent] = useState("");
   const [error, setError] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    if (!title || !category || !content) {
+    if (
+      !title ||
+      !description ||
+      !category ||
+      !image ||
+      !content
+    ) {
       setError("Please fill all fields");
       return;
     }
@@ -34,21 +43,19 @@ function CreateBlog({ blogs, setBlogs }) {
     const newBlog = {
       id: Date.now(),
       title,
-      description:
-        content.length > 100
-          ? content.slice(0, 100) + "..."
-          : content,
+      description,
       content,
       category,
-      image:
-        "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1200",
+      image,
     };
 
     setBlogs([newBlog, ...blogs]);
 
     setError("");
     setTitle("");
+    setDescription("");
     setCategory("");
+    setImage("");
     setContent("");
 
     navigate("/");
@@ -66,6 +73,16 @@ function CreateBlog({ blogs, setBlogs }) {
             value={title}
             onChange={(e) => {
               setTitle(e.target.value);
+              setError("");
+            }}
+          />
+
+          <input
+            type="text"
+            placeholder="Enter Blog Description"
+            value={description}
+            onChange={(e) => {
+              setDescription(e.target.value);
               setError("");
             }}
           />
@@ -97,6 +114,16 @@ function CreateBlog({ blogs, setBlogs }) {
               Education
             </option>
           </select>
+
+          <input
+            type="text"
+            placeholder="Enter Image URL"
+            value={image}
+            onChange={(e) => {
+              setImage(e.target.value);
+              setError("");
+            }}
+          />
 
           <textarea
             rows="10"
