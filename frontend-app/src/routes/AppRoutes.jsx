@@ -8,20 +8,54 @@ import CreateBlog from "../pages/CreateBlog";
 import BlogDetails from "../pages/BlogDetails";
 import NotFound from "../pages/NotFound";
 
-function AppRoutes({ searchTerm }) {
+function AppRoutes({
+  searchTerm,
+  blogs,
+  setBlogs,
+}) {
   return (
     <Routes>
       <Route
         path="/"
-        element={<Home searchTerm={searchTerm} />}
+        element={
+          <Home
+            searchTerm={searchTerm}
+            blogs={blogs}
+          />
+        }
       />
 
       <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="/create-blog" element={<CreateBlog />} />
-      <Route path="/blog/:id" element={<BlogDetails />} />
-      <Route path="*" element={<NotFound />} />
+
+      <Route
+        path="/register"
+        element={<Register />}
+      />
+
+      <Route
+        path="/profile"
+        element={<Profile />}
+      />
+
+      <Route
+        path="/create-blog"
+        element={
+          <CreateBlog
+            blogs={blogs}
+            setBlogs={setBlogs}
+          />
+        }
+      />
+
+      <Route
+        path="/blog/:id"
+        element={<BlogDetails blogs={blogs} />}
+      />
+
+      <Route
+        path="*"
+        element={<NotFound />}
+      />
     </Routes>
   );
 }

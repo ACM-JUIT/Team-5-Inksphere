@@ -1,7 +1,6 @@
 import { useParams } from "react-router-dom";
-import blogs from "../data/blogs";
 
-function BlogDetails() {
+function BlogDetails({ blogs }) {
   const { id } = useParams();
 
   const blog = blogs.find(
@@ -10,10 +9,8 @@ function BlogDetails() {
 
   if (!blog) {
     return (
-      <div>
-        <div className="blog-details">
-          <h1>Blog Not Found</h1>
-        </div>
+      <div className="blog-details">
+        <h1>Blog Not Found</h1>
       </div>
     );
   }
@@ -23,7 +20,7 @@ function BlogDetails() {
       <div className="blog-details">
         <img
           src={blog.image}
-          alt="blog"
+          alt={blog.title}
         />
 
         <h1>{blog.title}</h1>
@@ -32,10 +29,8 @@ function BlogDetails() {
           {blog.category}
         </p>
 
-        <p>{blog.description}</p>
-
         <p>
-          Full blog content will appear here.
+          {blog.content || blog.description}
         </p>
       </div>
     </div>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function CreateBlog() {
+function CreateBlog({ blogs, setBlogs }) {
   const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
@@ -18,17 +18,35 @@ function CreateBlog() {
     }
 
     if (title.length < 5) {
-      setError("Title must be at least 5 characters long");
+      setError(
+        "Title must be at least 5 characters long"
+      );
       return;
     }
 
     if (content.length < 20) {
-      setError("Blog content must be at least 20 characters long");
+      setError(
+        "Blog content must be at least 20 characters long"
+      );
       return;
     }
 
-    setError("");
+    const newBlog = {
+      id: Date.now(),
+      title,
+      description:
+        content.length > 100
+          ? content.slice(0, 100) + "..."
+          : content,
+      content,
+      category,
+      image:
+        "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1200",
+    };
 
+    setBlogs([newBlog, ...blogs]);
+
+    setError("");
     setTitle("");
     setCategory("");
     setContent("");
@@ -59,11 +77,25 @@ function CreateBlog() {
               setError("");
             }}
           >
-            <option value="">Select Category</option>
-            <option value="Tech">Tech</option>
-            <option value="Travel">Travel</option>
-            <option value="Lifestyle">Lifestyle</option>
-            <option value="Education">Education</option>
+            <option value="">
+              Select Category
+            </option>
+
+            <option value="Tech">
+              Tech
+            </option>
+
+            <option value="Travel">
+              Travel
+            </option>
+
+            <option value="Lifestyle">
+              Lifestyle
+            </option>
+
+            <option value="Education">
+              Education
+            </option>
           </select>
 
           <textarea
