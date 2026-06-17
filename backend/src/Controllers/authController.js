@@ -1,8 +1,10 @@
 const usermodel = require('../Model/userShema');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt')
 
 const register = async (req,res)=>{
     const {username,email,password} = req.body;
+    const hashpassword = await bcrypt.hash(password,10)
 
     const isUsernameExist = await usermodel.findOne({username});
     if (isUsernameExist){
@@ -18,14 +20,18 @@ const register = async (req,res)=>{
     }
 
     const user = await usermodel.create({
-        username,email,password
+        username,email,password:hashpassword
     })
 
     const token = jwt.sign({
         id:user._id
     },process.env.JWT_SECRET, {expiresIn:"1d"})
 
-    res.cookie('token',token);
+    res.cookie('token',token,{
+        httpOnly : true,
+        secure:true,
+        sameSite: "strict"
+    });
     
     res.status(201).json({
         message:"User registered successfully"
@@ -40,7 +46,8 @@ const login = async (req,res)=>{
             message:"User not found"
         })
     }
-    if (user.password !== password){
+    const ismatched = await bcrypt.compare(password,user.password) 
+    if ( !ismatched){
         return res.status(401).json({
             message:"Invalid password"
         })
@@ -48,6 +55,11 @@ const login = async (req,res)=>{
     const token = jwt.sign({
         id:user._id
     },process.env.JWT_SECRET, {expiresIn:"1d"})
+    res.cookie('token',token,{
+        httpOnly:true,
+        secure:true,
+        sameSite:true
+    });
     return res.status(200).json({
         message:"Login successful"
     })
