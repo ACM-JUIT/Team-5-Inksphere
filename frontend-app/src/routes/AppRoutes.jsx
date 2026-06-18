@@ -34,7 +34,12 @@ function AppRoutes({
 
       <Route
         path="/profile"
-        element={<Profile />}
+        element={
+          <Profile
+            blogs={blogs}
+            setBlogs={setBlogs}
+          />
+        }
       />
 
       <Route

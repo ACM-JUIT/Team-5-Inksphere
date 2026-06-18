@@ -1,6 +1,9 @@
 import { useState } from "react";
 
-function Profile() {
+function Profile({
+  blogs,
+  setBlogs,
+}) {
   const [isEditing, setIsEditing] = useState(false);
 
   const [name, setName] = useState("Alex Johnson");
@@ -49,6 +52,20 @@ function Profile() {
 
     setError("");
     setIsEditing(false);
+  }
+
+  function handleDelete(id) {
+    const confirmDelete = window.confirm(
+      "Delete this blog?"
+    );
+
+    if (confirmDelete) {
+      setBlogs(
+        blogs.filter(
+          (blog) => blog.id !== id
+        )
+      );
+    }
   }
 
   return (
@@ -133,11 +150,52 @@ function Profile() {
               <p>{bio}</p>
 
               <button
-                onClick={() => setIsEditing(true)}
+                onClick={() =>
+                  setIsEditing(true)
+                }
               >
                 Edit Profile
               </button>
             </>
+          )}
+
+          <hr
+            style={{
+              margin: "25px 0",
+            }}
+          />
+
+          <h3>My Blogs</h3>
+
+          {blogs.length > 0 ? (
+            blogs.map((blog) => (
+              <div
+                key={blog.id}
+                style={{
+                  border: "1px solid #ddd",
+                  padding: "12px",
+                  marginTop: "12px",
+                  borderRadius: "10px",
+                  textAlign: "left",
+                }}
+              >
+                <h4>{blog.title}</h4>
+
+                <p>
+                  {blog.category}
+                </p>
+
+                <button
+                  onClick={() =>
+                    handleDelete(blog.id)
+                  }
+                >
+                  Delete
+                </button>
+              </div>
+            ))
+          ) : (
+            <p>No blogs created yet.</p>
           )}
         </div>
       </div>
