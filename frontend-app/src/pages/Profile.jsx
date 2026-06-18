@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Profile({
   blogs,
@@ -67,6 +68,17 @@ function Profile({
       );
     }
   }
+
+  const totalBlogs = blogs.length;
+
+  const totalCategories = new Set(
+    blogs.map((blog) => blog.category)
+  ).size;
+
+  const latestBlog =
+    blogs.length > 0
+      ? blogs[0].title
+      : "No Blogs Yet";
 
   return (
     <div>
@@ -165,6 +177,37 @@ function Profile({
             }}
           />
 
+          <h3>Blog Statistics</h3>
+
+          <div
+            style={{
+              textAlign: "left",
+              marginTop: "10px",
+              marginBottom: "20px",
+            }}
+          >
+            <p>
+              <strong>Total Blogs:</strong>{" "}
+              {totalBlogs}
+            </p>
+
+            <p>
+              <strong>Categories Used:</strong>{" "}
+              {totalCategories}
+            </p>
+
+            <p>
+              <strong>Latest Blog:</strong>{" "}
+              {latestBlog}
+            </p>
+          </div>
+
+          <hr
+            style={{
+              margin: "25px 0",
+            }}
+          />
+
           <h3>My Blogs</h3>
 
           {blogs.length > 0 ? (
@@ -181,17 +224,29 @@ function Profile({
               >
                 <h4>{blog.title}</h4>
 
-                <p>
-                  {blog.category}
-                </p>
+                <p>{blog.category}</p>
 
-                <button
-                  onClick={() =>
-                    handleDelete(blog.id)
-                  }
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "10px",
+                    marginTop: "10px",
+                  }}
                 >
-                  Delete
-                </button>
+                  <Link
+                    to={`/edit-blog/${blog.id}`}
+                  >
+                    <button>Edit</button>
+                  </Link>
+
+                  <button
+                    onClick={() =>
+                      handleDelete(blog.id)
+                    }
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             ))
           ) : (
