@@ -80,6 +80,10 @@ function Profile({
       ? blogs[0].title
       : "No Blogs Yet";
 
+  const bookmarkedBlogs = blogs.filter(
+    (blog) => blog.bookmarked
+  );
+
   return (
     <div>
       <div className="profile-container">
@@ -201,6 +205,43 @@ function Profile({
               {latestBlog}
             </p>
           </div>
+
+          <hr
+            style={{
+              margin: "25px 0",
+            }}
+          />
+
+         <h3>Saved Blogs</h3>
+
+        {bookmarkedBlogs.length > 0 ? (
+          bookmarkedBlogs.map((blog) => (
+            <div
+              key={blog.id}
+              style={{
+                border: "1px solid #ddd",
+                padding: "12px",
+                marginTop: "12px",
+                borderRadius: "10px",
+                textAlign: "left",
+              }}
+            >
+              <Link
+                to={`/blog/${blog.id}`}
+                style={{
+                  textDecoration: "none",
+                  color: "inherit",
+                }}
+              >
+                <h4>{blog.title}</h4>
+
+                <p>{blog.category}</p>
+              </Link>
+            </div>
+          ))
+        ) : (
+          <p>No bookmarked blogs yet.</p>
+        )}
 
           <hr
             style={{

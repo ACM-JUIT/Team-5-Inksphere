@@ -6,6 +6,7 @@ function BlogCard({
   description,
   category,
   image,
+  likes = 0,
 }) {
   return (
     <div className="blog-card">
@@ -20,7 +21,15 @@ function BlogCard({
 
       <span>{category}</span>
 
-      <br />
+      <p
+        style={{
+          marginTop: "10px",
+          fontWeight: "bold",
+        }}
+      >
+        ❤️ {likes} Likes
+      </p>
+
       <br />
 
       <Link to={`/blog/${id}`}>

@@ -69,7 +69,10 @@ function AppRoutes({
       <Route
         path="/blog/:id"
         element={
-          <BlogDetails blogs={blogs} />
+          <BlogDetails
+            blogs={blogs}
+            setBlogs={setBlogs}
+          />
         }
       />
 
