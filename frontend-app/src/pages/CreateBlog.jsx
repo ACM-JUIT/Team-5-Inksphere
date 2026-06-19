@@ -47,6 +47,11 @@ function CreateBlog({ blogs, setBlogs }) {
       content,
       category,
       image,
+
+      likes: 0,
+      liked: false,
+      bookmarked: false,
+      comments: [],
     };
 
     setBlogs([newBlog, ...blogs]);

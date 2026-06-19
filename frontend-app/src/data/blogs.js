@@ -10,6 +10,7 @@ const blogs = [
     likes: 0,
     liked: false,
     bookmarked: false,
+    comments: [],
   },
   {
     id: 2,
@@ -22,6 +23,7 @@ const blogs = [
     likes: 0,
     liked: false,
     bookmarked: false,
+    comments: [],
   },
   {
     id: 3,
@@ -34,6 +36,7 @@ const blogs = [
     likes: 0,
     liked: false,
     bookmarked: false,
+    comments: [],
   },
 ];
 

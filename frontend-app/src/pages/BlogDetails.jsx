@@ -1,4 +1,12 @@
+import { useState } from "react";
 import { useParams } from "react-router-dom";
+import {
+  FaHeart,
+  FaRegHeart,
+  FaBookmark,
+  FaRegBookmark,
+  FaRegComment,
+} from "react-icons/fa";
 
 function BlogDetails({
   blogs,
@@ -9,6 +17,12 @@ function BlogDetails({
   const blog = blogs.find(
     (blog) => blog.id === Number(id)
   );
+
+  const [comment, setComment] =
+    useState("");
+
+  const [showComments, setShowComments] =
+    useState(false);
 
   if (!blog) {
     return (
@@ -48,62 +62,152 @@ function BlogDetails({
     );
   }
 
+  function handleAddComment() {
+    if (!comment.trim()) return;
+
+    setBlogs(
+      blogs.map((item) =>
+        item.id === blog.id
+          ? {
+              ...item,
+              comments: [
+                ...item.comments,
+                comment,
+              ],
+            }
+          : item
+      )
+    );
+
+    setComment("");
+  }
+
+  const readingTime = Math.max(
+    1,
+    Math.ceil(
+      (blog.content || "")
+        .split(" ")
+        .length / 200
+    )
+  );
+
   return (
-    <div>
-      <div className="blog-details">
-        <img
-          src={blog.image}
-          alt={blog.title}
-        />
+    <div className="blog-details">
+      <img
+        src={blog.image}
+        alt={blog.title}
+      />
 
-        <h1>{blog.title}</h1>
+      <h1>{blog.title}</h1>
 
-        <p className="blog-category">
-          {blog.category}
+      <p className="reading-time">
+        ⏱️ {readingTime} min read
+      </p>
+
+      {blog.description && (
+        <p className="blog-description">
+          {blog.description}
         </p>
+      )}
 
-        <div
-          style={{
-            display: "flex",
-            gap: "15px",
-            alignItems: "center",
-            margin: "15px 0",
-          }}
+      {blog.content && (
+        <p className="blog-content">
+          {blog.content}
+        </p>
+      )}
+
+      <p className="blog-category">
+        {blog.category}
+      </p>
+
+      <div className="blog-actions">
+        <button
+          className="icon-btn"
+          onClick={handleLike}
         >
-          <button
-            onClick={handleLike}
-            style={{
-              fontSize: "20px",
-            }}
-          >
-            {blog.liked ? "❤️" : "🤍"}
-          </button>
+          {blog.liked ? (
+            <FaHeart color="#ff3040" />
+          ) : (
+            <FaRegHeart />
+          )}
+        </button>
 
-          <span
-            style={{
-              fontWeight: "bold",
-            }}
-          >
-            {blog.likes} Likes
-          </span>
+        <button
+          className="icon-btn"
+          onClick={() =>
+            setShowComments(
+              !showComments
+            )
+          }
+        >
+          <FaRegComment />
+        </button>
 
-          <button
-            onClick={handleBookmark}
-            style={{
-              fontSize: "18px",
-            }}
-          >
-            {blog.bookmarked
-              ? "🔖"
-              : "📑"}
-          </button>
-        </div>
-
-        <p>
-          {blog.content ||
-            blog.description}
-        </p>
+        <button
+          className="icon-btn"
+          onClick={handleBookmark}
+        >
+          {blog.bookmarked ? (
+            <FaBookmark color="#ff6b35" />
+          ) : (
+            <FaRegBookmark />
+          )}
+        </button>
       </div>
+
+      <p className="likes-count">
+        {blog.likes} Like
+        {blog.likes !== 1 ? "s" : ""}
+      </p>
+
+      {showComments && (
+        <div className="comments-section">
+          <h3>Comments</h3>
+
+          <div className="comment-form">
+            <input
+              type="text"
+              placeholder="Write a comment..."
+              value={comment}
+              onChange={(e) =>
+                setComment(
+                  e.target.value
+                )
+              }
+            />
+
+            <button
+              onClick={
+                handleAddComment
+              }
+            >
+              Add Comment
+            </button>
+          </div>
+
+          {blog.comments &&
+          blog.comments.length >
+            0 ? (
+            blog.comments.map(
+              (
+                item,
+                index
+              ) => (
+                <div
+                  key={index}
+                  className="comment-card"
+                >
+                  {item}
+                </div>
+              )
+            )
+          ) : (
+            <p>
+              No comments yet.
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 }
