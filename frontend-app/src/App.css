@@ -640,6 +640,30 @@ body {
   font-weight: 500;
 }
 
+.nav-logout {
+  cursor: pointer;
+  color: #222;
+  font-size: 14px;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.nav-logout:hover {
+  color: #ff6b35;
+}
+
+.views-count {
+  color: #777;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.card-views {
+  font-size: 13px;
+  color: #777;
+  margin: 6px 0;
+}
+
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;

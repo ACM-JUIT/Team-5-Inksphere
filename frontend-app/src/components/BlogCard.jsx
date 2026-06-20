@@ -8,6 +8,7 @@ function BlogCard({
   category,
   image,
   likes = 0,
+  views = 0,
 }) {
   return (
     <div className="blog-card">
@@ -19,18 +20,24 @@ function BlogCard({
       <h3>{title}</h3>
 
       <p>{description}</p>
-    
+
       <p className="card-reading-time">
         ⏱️{" "}
         {Math.max(
           1,
           Math.ceil(
             (
-              content || description || ""
+              content ||
+              description ||
+              ""
             ).split(" ").length / 200
           )
         )}{" "}
         min read
+      </p>
+
+      <p className="card-views">
+        👁️ {views} Views
       </p>
 
       <span>{category}</span>
@@ -47,7 +54,9 @@ function BlogCard({
       <br />
 
       <Link to={`/blog/${id}`}>
-        <button>Read More</button>
+        <button>
+          Read More
+        </button>
       </Link>
     </div>
   );

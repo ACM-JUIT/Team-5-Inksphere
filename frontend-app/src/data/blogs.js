@@ -8,6 +8,7 @@ const blogs = [
     image:
       "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1200",
     likes: 0,
+    views: 0,
     liked: false,
     bookmarked: false,
     comments: [],
@@ -21,6 +22,7 @@ const blogs = [
     image:
       "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1200",
     likes: 0,
+    views: 0,
     liked: false,
     bookmarked: false,
     comments: [],
@@ -34,6 +36,7 @@ const blogs = [
     image:
       "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200",
     likes: 0,
+    views: 0,
     liked: false,
     bookmarked: false,
     comments: [],

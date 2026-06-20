@@ -49,6 +49,7 @@ function CreateBlog({ blogs, setBlogs }) {
       image,
 
       likes: 0,
+      views: 0,
       liked: false,
       bookmarked: false,
       comments: [],

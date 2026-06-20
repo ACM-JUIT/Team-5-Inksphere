@@ -1,14 +1,12 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function Login() {
-  const navigate = useNavigate();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] =
+    useState(false);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -43,11 +41,16 @@ function Login() {
 
     setError("");
 
+    localStorage.setItem(
+      "isLoggedIn",
+      "true"
+    );
+
     setEmail("");
     setPassword("");
     setShowPassword(false);
 
-    navigate("/");
+    window.location.href = "/";
   }
 
   return (
@@ -55,7 +58,10 @@ function Login() {
       <div className="login-container">
         <h1>Login</h1>
 
-        <form className="login-form" onSubmit={handleSubmit}>
+        <form
+          className="login-form"
+          onSubmit={handleSubmit}
+        >
           <input
             type="email"
             placeholder="Enter Email"
@@ -68,23 +74,45 @@ function Login() {
 
           <div className="password-field">
             <input
-              type={showPassword ? "text" : "password"}
+              type={
+                showPassword
+                  ? "text"
+                  : "password"
+              }
               placeholder="Enter Password"
               value={password}
               onChange={(e) => {
-                setPassword(e.target.value);
+                setPassword(
+                  e.target.value
+                );
                 setError("");
               }}
             />
 
-            <span onClick={() => setShowPassword(!showPassword)}>
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            <span
+              onClick={() =>
+                setShowPassword(
+                  !showPassword
+                )
+              }
+            >
+              {showPassword ? (
+                <FaEyeSlash />
+              ) : (
+                <FaEye />
+              )}
             </span>
           </div>
 
-          {error && <p className="error-message">{error}</p>}
+          {error && (
+            <p className="error-message">
+              {error}
+            </p>
+          )}
 
-          <button type="submit">Login</button>
+          <button type="submit">
+            Login
+          </button>
         </form>
       </div>
     </div>

@@ -2,51 +2,112 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaSearch, FaPlus } from "react-icons/fa";
 import { useState } from "react";
 
-function Navbar({ searchTerm, setSearchTerm }) {
+function Navbar({
+  searchTerm,
+  setSearchTerm,
+  isLoggedIn,
+  setIsLoggedIn,
+}) {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [showSearch, setShowSearch] = useState(false);
+  const [showSearch, setShowSearch] =
+    useState(false);
+
+  function handleLogout() {
+    const confirmLogout = window.confirm(
+      "Are you sure you want to logout?"
+    );
+
+    if (confirmLogout) {
+      localStorage.removeItem(
+        "isLoggedIn"
+      );
+
+      setIsLoggedIn(false);
+
+      navigate("/");
+    }
+  }
 
   return (
     <nav className="navbar">
-      <Link to="/" className="logo-link">
+      <Link
+        to="/"
+        className="logo-link"
+      >
         <h2>InkSphere</h2>
       </Link>
 
       <div className="nav-links">
         <Link
           to="/"
-          className={location.pathname === "/" ? "active" : ""}
+          className={
+            location.pathname === "/"
+              ? "active"
+              : ""
+          }
         >
           Home
         </Link>
 
-        <Link
-          to="/login"
-          className={location.pathname === "/login" ? "active" : ""}
-        >
-          Login
-        </Link>
+        {!isLoggedIn && (
+          <>
+            <Link
+              to="/login"
+              className={
+                location.pathname ===
+                "/login"
+                  ? "active"
+                  : ""
+              }
+            >
+              Login
+            </Link>
 
-        <Link
-          to="/register"
-          className={location.pathname === "/register" ? "active" : ""}
-        >
-          Register
-        </Link>
+            <Link
+              to="/register"
+              className={
+                location.pathname ===
+                "/register"
+                  ? "active"
+                  : ""
+              }
+            >
+              Register
+            </Link>
+          </>
+        )}
 
         <Link
           to="/profile"
-          className={location.pathname === "/profile" ? "active" : ""}
+          className={
+            location.pathname ===
+            "/profile"
+              ? "active"
+              : ""
+          }
         >
           Profile
         </Link>
 
+        {isLoggedIn && (
+          <span
+            className="nav-logout"
+            onClick={handleLogout}
+          >
+            Logout
+          </span>
+        )}
+
         <div className="search-wrapper">
           <FaSearch
             className="nav-icon"
-            onClick={() => setShowSearch(!showSearch)}
+            onClick={() =>
+              setShowSearch(
+                !showSearch
+              )
+            }
           />
 
           {showSearch && (
@@ -57,7 +118,9 @@ function Navbar({ searchTerm, setSearchTerm }) {
                 className="nav-search"
                 value={searchTerm}
                 onChange={(e) =>
-                  setSearchTerm(e.target.value)
+                  setSearchTerm(
+                    e.target.value
+                  )
                 }
                 autoFocus
               />
@@ -67,7 +130,11 @@ function Navbar({ searchTerm, setSearchTerm }) {
 
         <FaPlus
           className="nav-icon"
-          onClick={() => navigate("/create-blog")}
+          onClick={() =>
+            navigate(
+              "/create-blog"
+            )
+          }
         />
       </div>
     </nav>

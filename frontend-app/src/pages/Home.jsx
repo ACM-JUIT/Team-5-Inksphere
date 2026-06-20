@@ -48,6 +48,7 @@ function Home({ searchTerm, blogs }) {
               category={blog.category}
               image={blog.image}
               likes={blog.likes}
+              views={blog.views}
             />
           ))
         ) : (

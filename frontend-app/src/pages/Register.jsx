@@ -1,17 +1,19 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function Register() {
-  const navigate = useNavigate();
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] =
+    useState("");
   const [error, setError] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showPassword, setShowPassword] =
+    useState(false);
+  const [
+    showConfirmPassword,
+    setShowConfirmPassword,
+  ] = useState(false);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -38,12 +40,16 @@ function Register() {
     }
 
     if (!confirmPassword) {
-      setError("Confirm Password is required");
+      setError(
+        "Confirm Password is required"
+      );
       return;
     }
 
     if (!emailRegex.test(email)) {
-      setError("Enter a valid email address");
+      setError(
+        "Enter a valid email address"
+      );
       return;
     }
 
@@ -55,11 +61,18 @@ function Register() {
     }
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
+      setError(
+        "Passwords do not match"
+      );
       return;
     }
 
     setError("");
+
+    localStorage.setItem(
+      "isLoggedIn",
+      "true"
+    );
 
     setName("");
     setEmail("");
@@ -68,7 +81,7 @@ function Register() {
     setShowPassword(false);
     setShowConfirmPassword(false);
 
-    navigate("/");
+    window.location.href = "/";
   }
 
   return (
@@ -76,7 +89,10 @@ function Register() {
       <div className="register-container">
         <h1>Register</h1>
 
-        <form className="register-form" onSubmit={handleSubmit}>
+        <form
+          className="register-form"
+          onSubmit={handleSubmit}
+        >
           <input
             type="text"
             placeholder="Enter Name"
@@ -99,43 +115,77 @@ function Register() {
 
           <div className="password-field">
             <input
-              type={showPassword ? "text" : "password"}
+              type={
+                showPassword
+                  ? "text"
+                  : "password"
+              }
               placeholder="Enter Password"
               value={password}
               onChange={(e) => {
-                setPassword(e.target.value);
-                setError("");
-              }}
-            />
-
-            <span onClick={() => setShowPassword(!showPassword)}>
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
-            </span>
-          </div>
-
-          <div className="password-field">
-            <input
-              type={showConfirmPassword ? "text" : "password"}
-              placeholder="Confirm Password"
-              value={confirmPassword}
-              onChange={(e) => {
-                setConfirmPassword(e.target.value);
+                setPassword(
+                  e.target.value
+                );
                 setError("");
               }}
             />
 
             <span
               onClick={() =>
-                setShowConfirmPassword(!showConfirmPassword)
+                setShowPassword(
+                  !showPassword
+                )
               }
             >
-              {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+              {showPassword ? (
+                <FaEyeSlash />
+              ) : (
+                <FaEye />
+              )}
             </span>
           </div>
 
-          {error && <p className="error-message">{error}</p>}
+          <div className="password-field">
+            <input
+              type={
+                showConfirmPassword
+                  ? "text"
+                  : "password"
+              }
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => {
+                setConfirmPassword(
+                  e.target.value
+                );
+                setError("");
+              }}
+            />
 
-          <button type="submit">Register</button>
+            <span
+              onClick={() =>
+                setShowConfirmPassword(
+                  !showConfirmPassword
+                )
+              }
+            >
+              {showConfirmPassword ? (
+                <FaEyeSlash />
+              ) : (
+                <FaEye />
+              )}
+            </span>
+          </div>
+
+          {error && (
+            <p className="error-message">
+              {error}
+            </p>
+          )}
+
+          <button type="submit">
+            Register
+          </button>
         </form>
       </div>
     </div>

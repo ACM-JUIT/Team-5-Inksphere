@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
   FaHeart,
@@ -23,6 +23,41 @@ function BlogDetails({
 
   const [showComments, setShowComments] =
     useState(false);
+
+  useEffect(() => {
+    if (!blog) return;
+
+    const viewedBlogs =
+      JSON.parse(
+        localStorage.getItem(
+          "viewedBlogs"
+        )
+      ) || [];
+
+    if (
+      !viewedBlogs.includes(blog.id)
+    ) {
+      setBlogs(
+        blogs.map((item) =>
+          item.id === blog.id
+            ? {
+                ...item,
+                views:
+                  (item.views || 0) + 1,
+              }
+            : item
+        )
+      );
+
+      localStorage.setItem(
+        "viewedBlogs",
+        JSON.stringify([
+          ...viewedBlogs,
+          blog.id,
+        ])
+      );
+    }
+  }, []);
 
   if (!blog) {
     return (
@@ -55,7 +90,8 @@ function BlogDetails({
         item.id === blog.id
           ? {
               ...item,
-              bookmarked: !item.bookmarked,
+              bookmarked:
+                !item.bookmarked,
             }
           : item
       )
@@ -102,6 +138,10 @@ function BlogDetails({
 
       <p className="reading-time">
         ⏱️ {readingTime} min read
+      </p>
+
+      <p className="views-count">
+        👁️ {blog.views || 0} Views
       </p>
 
       {blog.description && (
