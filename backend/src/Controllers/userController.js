@@ -84,7 +84,9 @@ const profilebyid = async (req,res)=>{
             user
         })
     } catch (error){
-        message:error.message
+        return res.status(404).json({
+            message:error.message
+        })
     }
 }
 

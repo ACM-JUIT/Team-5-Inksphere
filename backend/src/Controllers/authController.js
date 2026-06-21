@@ -3,9 +3,10 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt')
 
 const register = async (req,res)=>{
-    const {username,email,password} = req.body;
+    
+    try{
+        const {username,email,password} = req.body;
     const hashpassword = await bcrypt.hash(password,10)
-
     const isUsernameExist = await usermodel.findOne({username});
     if (isUsernameExist){
         return res.status(409).json({
@@ -34,8 +35,13 @@ const register = async (req,res)=>{
     });
     
     res.status(201).json({
+        success:true,
         message:"User registered successfully"
-    })
+    })}catch(error){
+   return res.status(500).json({
+      message:error.message
+   });
+}
 }
 
 const login = async (req,res)=>{

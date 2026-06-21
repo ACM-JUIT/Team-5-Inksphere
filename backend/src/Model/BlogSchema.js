@@ -20,6 +20,7 @@ const blogSchema = new mongoose.Schema({
     },
     category:{
         type:String,
+        enum: ['General','Tech', 'Travel', 'Lifestyle', 'Education'],
         default:'General'
     },
     author:{

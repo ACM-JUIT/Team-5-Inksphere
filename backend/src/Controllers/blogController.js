@@ -45,7 +45,10 @@ const getsingleblog = async (req,res)=> {
             blog
         }) 
         } catch(error) {
-            message:error.message
+            return res.status(400).json({
+                message:error.message
+            })
+            
         }
 }
 
@@ -67,17 +70,25 @@ const getblogsonprofile = async (req,res)=>{
 
 const deleteblog = async (req,res)=>{
     try {
-        const blog = await blogmodel.findByIdAndDelete(req.params.id)
+        const blog = await blogmodel.findById(req.params.id)
         if(!blog){
             return res.status(409).json({
                 message:'Not available'
             })
         }
+        if (blog.author.toString() !== req.user.id) {
+            return res.status(403).json({
+                message: "You are not allowed to delete this blog"
+            });
+        }
+        await blog.deleteOne();
         return res.status(201).json({
             message:'Blog deleted sucessfully',
         })
     } catch(error) {
-        message:error.message
+        return res.status(500).json({
+            message:error.message
+        })
     }
 }
 
@@ -109,7 +120,7 @@ const updateblog = async (req,res)=>{
             update.category = category
         }
         await blogmodel.findByIdAndUpdate(req.params.id,update)
-        return res.status(201).json({
+        return res.status(200).json({
             message:'Updated sucessfully'
         })
     } catch (error){
@@ -122,7 +133,12 @@ const updateblog = async (req,res)=>{
 const getblogbycategory = async (req,res)=>{
     try {
         const blogs = await blogmodel.find({category: req.params.category})
-        return res.status(201).json({
+        if(blogs.length==0){
+            return res.status(404).json({
+                message:'No blogs in this category'
+            })
+        }
+        return res.status(200).json({
             message:'Blogs are fetched by category',
             blogs
         })
@@ -206,7 +222,7 @@ const getcomment = async (req,res)=>{
     try {
         const comments = await commentmodel.find({ blog: req.params.blogId }).populate('username', 'username profilepic');
         
-        return res.status(201).json({
+        return res.status(200).json({
             message:'Comment found sucessfully',
             comments
 
@@ -220,17 +236,19 @@ const getcomment = async (req,res)=>{
 
 const dltcomment = async (req,res)=>{
     try {
-        const comment = await commentmodel.findByIdAndDelete(req.params.commentId)
-        if (comment.username.toString() !== req.user.id){
-            return res.status(400).json({
+        const comment = await commentmodel.findById(req.params.commentId) .populate('blog', 'author')
+        if (!comment){
+            return res.status(404).json({
+                message:'Blog not found'
+            })
+        }
+        if (comment.username.toString() !== req.user.id && comment.blog.author.toString() !== req.user.id){
+            return res.status(403).json({
                 message:'UnAuthorized'
             })
         }
-        if (!comment){
-            return res.status(404).json({
-                message:'Bloag not found'
-            })
-        }
+        
+        await comment.deleteOne();
         return res.status(200).json({
             message:'blog delted sucessfuly'
         })

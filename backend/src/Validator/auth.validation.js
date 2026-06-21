@@ -27,20 +27,15 @@ const registervalidation = [
 ]
 
 const loginvalidation = [
-    body('email')
+    body('username')
     .trim()
-    .notEmptyy()
-    .withMessage('Email is required')
-    .isEmail()
-    .withMessage('Enter an email'),
+    .notEmpty()
+    .withMessage('Usename is required'),
+    
 
     body('password')
     .notEmpty()
     .withMessage('Password is required')
-    .isLength({min:8}) 
-    .withMessage('Minimum 8 characters')
-    .isStrongPassword()
-    .withMessage('Enter a strong password')
 ]
 
 
