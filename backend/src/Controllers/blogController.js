@@ -1,20 +1,33 @@
 const blogmodel = require('../Model/BlogSchema')
 const commentmodel = require('../Model/commentSchema')
 const usermodel = require('../Model/userShema')
+const uploadImage = require('../utils/cloudinaryUpload');
 
-const createblog = async (req,res)=> {
+const createblog = async (req,res)=>{
     try{
-        const {title,content,coverImage,category} = req.body;
-        const blog = await blogmodel.create({
-            title,content,coverImage,category,author:req.user.id
-        })
+        const {title,content,category} = req.body;
+        let coverImage = '';
+        if(req.file){
+            const result = await uploadImage(
+                req.file.buffer,
+                'blog-covers'
+            );
+            coverImage = result.secure_url;
+        }
+        await blogmodel.create({
+            title,
+            content,
+            category,
+            coverImage,
+            author:req.user.id
+        });
         return res.status(201).json({
-            message:"blog created sucessfully"
-        })
-    } catch (error){
-        return res.status(409).json({
+            message:'Blog created successfully'
+        });
+    }catch(error){
+        return res.status(500).json({
             message:error.message
-        })
+        });
     }
 }
 
@@ -93,7 +106,7 @@ const deleteblog = async (req,res)=>{
 }
 
 const updateblog = async (req,res)=>{
-    const {title,content,coverImage,category} = req.body
+    const {title,content,category} = req.body
     const update = {} 
     try{
         const blog = await blogmodel.findById(req.params.id);
@@ -112,9 +125,6 @@ const updateblog = async (req,res)=>{
         }
         if (content){
             update.content = content
-        }
-        if (coverImage){
-            update.coverImage = coverImage
         }
         if (category){
             update.category = category

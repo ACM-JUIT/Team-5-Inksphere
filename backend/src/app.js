@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors')
 const connectDB = require('./DB/db');
 const cookieParser = require('cookie-parser');
 const authRoutes = require('./routes/auth.routes');
@@ -9,9 +10,13 @@ const helmet = require('helmet')
 const morgan = require('morgan')
 const compression = require('compression')
 
+
 connectDB();
 
 const app = express();
+app.use(cors({
+    origin: process.env.FRONTEND_URL,
+}))
 app.use(compression())
 app.use(morgan('dev'))
 app.use(express.json());

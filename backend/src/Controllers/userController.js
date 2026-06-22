@@ -1,4 +1,5 @@
 const usermodel = require('../Model/userShema');
+const uploadImage = require('../utils/cloudinaryUpload');
 
 const getProfile = async (req,res)=>{
     const token = req.cookies.token;
@@ -20,7 +21,7 @@ const getProfile = async (req,res)=>{
 }
 
 const updateprofile = async (req,res)=>{
-    const {username,bio,profilepic} = req.body;
+    const {username,bio} = req.body;
     const updates = {};
     try {
         const currentuser = await usermodel.findById(req.user.id);
@@ -38,9 +39,6 @@ const updateprofile = async (req,res)=>{
             }
             updates.username = username;
         }
-        if(profilepic){
-            updates.profilepic = profilepic
-        }
         if(bio){
             updates.bio= bio
         }
@@ -55,6 +53,32 @@ const updateprofile = async (req,res)=>{
     }
 }
 
+
+const uploadProfilePic = async (req,res)=>{
+    try {
+        if(!req.file){
+            return res.status(400).json({
+                message:'Please upload an image'
+            });
+        }
+        const user = await usermodel.findById(req.user.id);
+        const result = await uploadImage(
+            req.file.buffer,
+            'profile-pictures'
+        );
+        user.profilepic = result.secure_url;
+        await user.save();
+        return res.status(200).json({
+            message:'Profile picture uploaded successfully',
+            profilepic:user.profilepic
+        });
+
+    } catch(error){
+        return res.status(500).json({
+            message:error.message
+        });
+    }
+}
 
 
 const getprofilepicture = async (req,res)=>{
@@ -93,5 +117,5 @@ const profilebyid = async (req,res)=>{
 
 
 module.exports = {
-    getProfile,updateprofile,getprofilepicture,profilebyid
+    getProfile,updateprofile,getprofilepicture,profilebyid,uploadProfilePic
 }

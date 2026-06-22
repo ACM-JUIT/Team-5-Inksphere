@@ -1,8 +1,9 @@
 const router = require('express').Router();
 const blogController = require('../Controllers/blogController');
 const authmiddleware = require('../middleware/auth.middleware')
+const upload = require('../middleware/upload.middleware');
 
-router.post('/create',authmiddleware,blogController.createblog);
+router.post('/create',authmiddleware,upload.single('coverImage'),blogController.createblog);
 router.get('/blogs',blogController.getblog)
 router.get('/blog/latestblog',authmiddleware,blogController.latestblog)
 router.get('/blog/:id',blogController.getsingleblog)

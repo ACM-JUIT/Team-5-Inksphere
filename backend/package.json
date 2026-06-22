@@ -19,10 +19,16 @@
   "bcrypt": "^6.0.0",
   
     
+  "cloudinary": "^2.10.0",
+  
+    
   "compression": "^1.8.1",
   
     
   "cookie-parser": "^1.4.7",
+  
+    
+  "cors": "^2.8.6",
   
     
   "dotenv": "^17.4.2",
@@ -49,7 +55,13 @@
   "mongoose": "^9.6.3",
   
     
-  "morgan": "^1.11.0"
+  "morgan": "^1.11.0",
+  
+    
+  "multer": "^2.2.0",
+  
+    
+  "streamifier": "^0.1.1"
   
   },
   
