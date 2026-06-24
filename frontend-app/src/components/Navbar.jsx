@@ -51,6 +51,18 @@ function Navbar({
           Home
         </Link>
 
+        <Link
+          to="/trending"
+          className={
+            location.pathname ===
+            "/trending"
+              ? "active"
+              : ""
+          }
+        >
+          Trending
+        </Link>
+
         {!isLoggedIn && (
           <>
             <Link

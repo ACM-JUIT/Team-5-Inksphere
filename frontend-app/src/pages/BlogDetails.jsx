@@ -25,39 +25,39 @@ function BlogDetails({
     useState(false);
 
   useEffect(() => {
-    if (!blog) return;
+  if (!blog) return;
 
-    const viewedBlogs =
-      JSON.parse(
-        localStorage.getItem(
-          "viewedBlogs"
-        )
-      ) || [];
+  const viewedBlogs =
+    JSON.parse(
+      localStorage.getItem(
+        "viewedBlogs"
+      )
+    ) || [];
 
-    if (
-      !viewedBlogs.includes(blog.id)
-    ) {
-      setBlogs(
-        blogs.map((item) =>
-          item.id === blog.id
-            ? {
-                ...item,
-                views:
-                  (item.views || 0) + 1,
-              }
-            : item
-        )
-      );
+  if (
+    !viewedBlogs.includes(blog.id)
+  ) {
+    setBlogs((prevBlogs) =>
+      prevBlogs.map((item) =>
+        item.id === blog.id
+          ? {
+              ...item,
+              views:
+                (item.views || 0) + 1,
+            }
+          : item
+      )
+    );
 
-      localStorage.setItem(
-        "viewedBlogs",
-        JSON.stringify([
-          ...viewedBlogs,
-          blog.id,
-        ])
-      );
-    }
-  }, []);
+    localStorage.setItem(
+      "viewedBlogs",
+      JSON.stringify([
+        ...viewedBlogs,
+        blog.id,
+      ])
+    );
+  }
+}, [blog, setBlogs]);
 
   if (!blog) {
     return (

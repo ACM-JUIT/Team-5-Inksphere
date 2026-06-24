@@ -664,6 +664,47 @@ body {
   margin: 6px 0;
 }
 
+.trending-page {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.trending-page h1 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.trending-blog {
+  background: #fff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.trending-blog h2 {
+  margin-bottom: 10px;
+}
+
+.trending-blog p {
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.trending-blog button {
+  background: #ff6b35;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.trending-blog button:hover {
+  opacity: 0.9;
+}
+
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;

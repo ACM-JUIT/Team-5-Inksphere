@@ -7,6 +7,7 @@ import Profile from "../pages/Profile";
 import CreateBlog from "../pages/CreateBlog";
 import EditBlog from "../pages/EditBlog";
 import BlogDetails from "../pages/BlogDetails";
+import Trending from "../pages/Trending";
 import NotFound from "../pages/NotFound";
 
 function AppRoutes({
@@ -73,6 +74,13 @@ function AppRoutes({
             blogs={blogs}
             setBlogs={setBlogs}
           />
+        }
+      />
+
+      <Route
+        path="/trending"
+        element={
+          <Trending blogs={blogs} />
         }
       />
 
