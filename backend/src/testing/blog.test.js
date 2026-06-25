@@ -454,9 +454,22 @@ describe('latest blogs', () => {
         const response = await request(app)
         .get('/api/blog/blog/latestblog')
         .set('cookie', cookie);
-        console.log(response.statusCode);
-        console.log(response.body);
-        console.log(response.text);
         expect(response.statusCode).toBe(200);
     });
 });
+
+describe('trending blogs',()=>{
+    test('should return 200 trending blogs fetched sucessfully', async ()=>{
+        const login = await request(app)
+            .post('/api/auth/login')
+            .send({
+                username: 'Akaash',
+                password: 'Aditya@12'
+            });
+        const cookie = login.headers['set-cookie'];
+        const response = await request(app)
+        .get('/api/blog/blogs/trendingblogs')
+        .set('cookie', cookie);
+        expect(response.statusCode).toBe(200)
+    })
+})
