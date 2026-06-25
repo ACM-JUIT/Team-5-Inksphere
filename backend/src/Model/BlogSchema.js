@@ -31,7 +31,11 @@ const blogSchema = new mongoose.Schema({
     comments:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Comments'
-    }]
+    }],
+    views:{
+        type:Number,
+        default:0
+    }
 },{
     timestamps: true,
   });
