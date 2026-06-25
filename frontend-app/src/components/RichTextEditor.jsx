@@ -1,12 +1,28 @@
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import Image from "@tiptap/extension-image";
+import Link from "@tiptap/extension-link";
+import { Table } from "@tiptap/extension-table";
+import { TableRow } from "@tiptap/extension-table-row";
+import { TableCell } from "@tiptap/extension-table-cell";
+import { TableHeader } from "@tiptap/extension-table-header";
 
 function RichTextEditor({
   content,
   setContent,
 }) {
   const editor = useEditor({
-    extensions: [StarterKit],
+    extensions: [
+        StarterKit,
+        Image,
+        Link,
+        Table.configure({
+            resizable: true,
+        }),
+        TableRow,
+        TableHeader,
+        TableCell,
+    ],
     content,
     onUpdate: ({ editor }) => {
       setContent(
@@ -151,8 +167,65 @@ function RichTextEditor({
             >
             {"</>"}
             </button>
-        
-        
+
+        <button
+            type="button"
+            onClick={() => {
+                const url = prompt(
+                    "Enter Image URL"
+                );
+
+                if (url) {
+                editor
+                    .chain()
+                    .focus()
+                    .setImage({
+                        src: url,
+                    })
+                    .run();
+                }
+            }}
+        >
+            🖼️ Image
+        </button>
+
+        <button
+            type="button"
+            onClick={() => {
+                const url = prompt(
+                    "Enter Link URL"
+                );
+
+                if (url) {
+                    editor
+                        .chain()
+                        .focus()
+                        .setLink({
+                            href: url,
+                        })
+                        .run();
+                    }
+                }}
+            >
+                🔗 Link
+            </button>
+
+        <button
+            type="button"
+            onClick={() =>
+                editor
+                    .chain()
+                    .focus()
+                    .insertTable({
+                        rows: 3,
+                        cols: 3,
+                        withHeaderRow: true,
+                    })
+                    .run()
+            }
+        >
+            📊 Table
+        </button>
 
       </div>
 

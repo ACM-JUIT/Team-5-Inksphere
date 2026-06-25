@@ -772,6 +772,34 @@ body {
   margin: 10px 0;
 }
 
+.ProseMirror img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin: 15px 0;
+}
+
+.ProseMirror a {
+  color: blue;
+  text-decoration: underline;
+}
+
+.ProseMirror table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 15px 0;
+}
+
+.ProseMirror th,
+.ProseMirror td {
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+.ProseMirror th {
+  background: #f5f5f5;
+}
+
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
