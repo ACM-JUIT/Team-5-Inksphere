@@ -705,6 +705,73 @@ body {
   opacity: 0.9;
 }
 
+.editor-container {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  overflow: hidden;
+  background: white;
+  margin-top: 20px;
+}
+
+.editor-toolbar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  background: #f8f8f8;
+}
+
+.editor-toolbar button {
+  padding: 5px 9px;
+  border: none;
+  border-radius: 8px;
+  background: #262626;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.editor-toolbar button:hover {
+  background: #474747;
+}
+
+.ProseMirror {
+  min-height: 300px;
+  padding: 20px;
+  outline: none;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.ProseMirror h2 {
+  margin: 15px 0;
+}
+
+.ProseMirror ul,
+.ProseMirror ol {
+  padding-left: 25px;
+}
+
+.blog-content {
+  margin-top: 20px;
+  line-height: 1.8;
+}
+
+.blog-content h1,
+.blog-content h2,
+.blog-content h3 {
+  margin: 15px 0;
+}
+
+.blog-content ul,
+.blog-content ol {
+  padding-left: 25px;
+}
+
+.blog-content p {
+  margin: 10px 0;
+}
+
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;

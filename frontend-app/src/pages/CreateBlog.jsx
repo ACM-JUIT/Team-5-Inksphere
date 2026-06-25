@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import RichTextEditor from "../components/RichTextEditor";
 
 function CreateBlog({ blogs, setBlogs }) {
   const navigate = useNavigate();
@@ -131,14 +132,9 @@ function CreateBlog({ blogs, setBlogs }) {
             }}
           />
 
-          <textarea
-            rows="10"
-            placeholder="Write your blog here..."
-            value={content}
-            onChange={(e) => {
-              setContent(e.target.value);
-              setError("");
-            }}
+          <RichTextEditor
+            content={content}
+            setContent={setContent}
           />
 
           {error && (

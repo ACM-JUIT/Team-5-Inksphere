@@ -151,9 +151,12 @@ function BlogDetails({
       )}
 
       {blog.content && (
-        <p className="blog-content">
-          {blog.content}
-        </p>
+        <div
+          className="blog-content"
+          dangerouslySetInnerHTML={{
+            __html: blog.content,
+          }}
+        />
       )}
 
       <p className="blog-category">
