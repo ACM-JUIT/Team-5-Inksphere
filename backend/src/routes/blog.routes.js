@@ -19,5 +19,6 @@ router.delete('/blog/comment/dlt/:commentId',authmiddleware,blogController.dltco
 router.put('/blog/bookmark/:blogId',authmiddleware,blogController.bookmark)
 router.get('/blog/allbookmark/:blogId',authmiddleware,blogController.getbookmarks)
 router.get('/blog/search/search',authmiddleware,blogController.searchblog)
+router.get('/blogs/trendingblogs',authmiddleware,blogController.trendingBlogs)
 
 module.exports = router;

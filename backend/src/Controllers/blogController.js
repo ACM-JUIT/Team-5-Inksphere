@@ -47,7 +47,13 @@ const getblog = async (req,res)=>{
 
 const getsingleblog = async (req,res)=> {
     try{
-        const blog = await blogmodel.findById(req.params.id).populate('author','username profilepic')
+        const blog = await blogmodel.findByIdAndUpdate(req.params.id,
+            {
+                $inc:{
+                    views:1
+                }
+            }
+        ).populate('author','username profilepic')
         if (!blog){
             return res.status(409).json({
                 message:'Not available'
@@ -360,4 +366,56 @@ const latestblog = async (req,res)=>{
         })
     }
 }
-module.exports = {createblog,getblog,deleteblog,getblogsonprofile,getsingleblog, updateblog,getblogbycategory,like,createcomment,getbloglikes,getcomment,dltcomment,bookmark,getbookmarks,searchblog,latestblog}
+
+const trendingBlogs = async (req, res) => {
+    try {
+        const blogs = await blogmodel.aggregate([
+            {
+                $addFields: {
+                    likesCount: {
+                        $size: "$likes"
+                    },
+                    commentsCount: {
+                        $size: "$comments"
+                    }
+                }
+            },
+            {
+                $addFields: {
+                    trendingScore: {
+                        $add: [
+                            "$views",
+                            { $multiply: ["$likesCount", 3] },
+                            { $multiply: ["$commentsCount", 5] }
+                        ]
+                    }
+                }
+            },
+            {
+                $sort: {
+                    trendingScore: -1
+                }
+            },
+            {
+                $limit: 10
+            },
+            {
+                $project:{
+                    likesCount:0,
+                    commentsCount:0,
+                    trendingScore:0
+                }
+            }
+        ]);
+        return res.status(200).json({
+            message: "Trending blogs fetched successfully",
+            blogs
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message
+        });
+    }
+};
+
+module.exports = {createblog,getblog,deleteblog,getblogsonprofile,getsingleblog, updateblog,getblogbycategory,like,createcomment,getbloglikes,getcomment,dltcomment,bookmark,getbookmarks,searchblog,latestblog,trendingBlogs}
