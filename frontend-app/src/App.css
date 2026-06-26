@@ -784,22 +784,22 @@ body {
   text-decoration: underline;
 }
 
-.ProseMirror table {
-  border-collapse: collapse;
-  width: 100%;
-  margin: 15px 0;
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: "Start writing your blog...";
+  color: #999;
+  pointer-events: none;
+  float: left;
 }
 
-.ProseMirror th,
-.ProseMirror td {
-  border: 1px solid #ddd;
-  padding: 10px;
+.editor-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
-.ProseMirror th {
-  background: #f5f5f5;
+.ProseMirror {
+  min-height: 450px;
 }
-
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;

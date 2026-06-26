@@ -7,27 +7,41 @@ import { TableRow } from "@tiptap/extension-table-row";
 import { TableCell } from "@tiptap/extension-table-cell";
 import { TableHeader } from "@tiptap/extension-table-header";
 
+import {
+  FaBold,
+  FaItalic,
+  FaStrikethrough,
+  FaListUl,
+  FaListOl,
+  FaQuoteRight,
+  FaCode,
+  FaImage,
+  FaLink,
+  FaTable,
+  FaPlus,
+} from "react-icons/fa";
+
 function RichTextEditor({
   content,
   setContent,
 }) {
   const editor = useEditor({
     extensions: [
-        StarterKit,
-        Image,
-        Link,
-        Table.configure({
-            resizable: true,
-        }),
-        TableRow,
-        TableHeader,
-        TableCell,
+      StarterKit,
+      Image,
+      Link,
+      Table.configure({
+        resizable: true,
+      }),
+      TableRow,
+      TableHeader,
+      TableCell,
     ],
+
     content,
+
     onUpdate: ({ editor }) => {
-      setContent(
-        editor.getHTML()
-      );
+      setContent(editor.getHTML());
     },
   });
 
@@ -36,6 +50,7 @@ function RichTextEditor({
   return (
     <div className="editor-container">
       <div className="editor-toolbar">
+
         <button
           type="button"
           onClick={() =>
@@ -46,7 +61,7 @@ function RichTextEditor({
               .run()
           }
         >
-          B
+          <FaBold />
         </button>
 
         <button
@@ -59,7 +74,7 @@ function RichTextEditor({
               .run()
           }
         >
-          I
+          <FaItalic />
         </button>
 
         <button
@@ -72,7 +87,7 @@ function RichTextEditor({
               .run()
           }
         >
-          S
+          <FaStrikethrough />
         </button>
 
         <button
@@ -85,7 +100,7 @@ function RichTextEditor({
               .run()
           }
         >
-          • List
+          <FaListUl />
         </button>
 
         <button
@@ -98,21 +113,23 @@ function RichTextEditor({
               .run()
           }
         >
-          1. List
+          <FaListOl />
         </button>
-        
+
         <button
-            type="button"
-            onClick={() =>
-                editor
-                .chain()
-                .focus()
-                .toggleHeading({ level: 1 })
-                .run()
-            }
-            >
-            H1
-            </button>
+          type="button"
+          onClick={() =>
+            editor
+              .chain()
+              .focus()
+              .toggleHeading({
+                level: 1,
+              })
+              .run()
+          }
+        >
+          H1
+        </button>
 
         <button
           type="button"
@@ -130,108 +147,108 @@ function RichTextEditor({
         </button>
 
         <button
-        type="button"
-        onClick={() =>
+          type="button"
+          onClick={() =>
             editor
-            .chain()
-            .focus()
-            .toggleHeading({ level: 3 })
-            .run()
-        }
+              .chain()
+              .focus()
+              .toggleHeading({
+                level: 3,
+              })
+              .run()
+          }
         >
-        H3
+          H3
         </button>
 
         <button
-            type="button"
-            onClick={() =>
-                editor
-                .chain()
-                .focus()
-                .toggleBlockquote()
-                .run()
-            }
-            >
-            "
-            </button>
-
-        <button
-            type="button"
-            onClick={() =>
-                editor
-                .chain()
-                .focus()
-                .toggleCodeBlock()
-                .run()
-            }
-            >
-            {"</>"}
-            </button>
-
-        <button
-            type="button"
-            onClick={() => {
-                const url = prompt(
-                    "Enter Image URL"
-                );
-
-                if (url) {
-                editor
-                    .chain()
-                    .focus()
-                    .setImage({
-                        src: url,
-                    })
-                    .run();
-                }
-            }}
+          type="button"
+          onClick={() =>
+            editor
+              .chain()
+              .focus()
+              .toggleBlockquote()
+              .run()
+          }
         >
-            🖼️ Image
+          <FaQuoteRight />
         </button>
 
         <button
-            type="button"
-            onClick={() => {
-                const url = prompt(
-                    "Enter Link URL"
-                );
-
-                if (url) {
-                    editor
-                        .chain()
-                        .focus()
-                        .setLink({
-                            href: url,
-                        })
-                        .run();
-                    }
-                }}
-            >
-                🔗 Link
-            </button>
+          type="button"
+          onClick={() =>
+            editor
+              .chain()
+              .focus()
+              .toggleCodeBlock()
+              .run()
+          }
+        >
+          <FaCode />
+        </button>
 
         <button
-            type="button"
-            onClick={() =>
-                editor
-                    .chain()
-                    .focus()
-                    .insertTable({
-                        rows: 3,
-                        cols: 3,
-                        withHeaderRow: true,
-                    })
-                    .run()
+          type="button"
+          onClick={() => {
+            const url = prompt(
+              "Enter Image URL"
+            );
+
+            if (url) {
+              editor
+                .chain()
+                .focus()
+                .setImage({
+                  src: url,
+                })
+                .run();
             }
+          }}
         >
-            📊 Table
+          <FaImage />
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            const url = prompt(
+              "Enter Link URL"
+            );
+
+            if (url) {
+              editor
+                .chain()
+                .focus()
+                .setLink({
+                  href: url,
+                })
+                .run();
+            }
+          }}
+        >
+          <FaLink />
+        </button>
+
+        <button
+          type="button"
+          onClick={() =>
+            editor
+              .chain()
+              .focus()
+              .insertTable({
+                rows: 3,
+                cols: 3,
+                withHeaderRow: true,
+              })
+              .run()
+          }
+        >
+          <FaTable />
         </button>
 
       </div>
 
-      <EditorContent
-        editor={editor}
-      />
+      <EditorContent editor={editor} />
     </div>
   );
 }
