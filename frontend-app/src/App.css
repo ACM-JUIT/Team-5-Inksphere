@@ -791,20 +791,18 @@ body {
   float: left;
 }
 
-.editor-toolbar {
-  position: sticky;
-  top: 0;
-  z-index: 10;
+.create-blog select {
+  width: 100%;
+  max-width: 100%;
 }
 
-.ProseMirror {
-  min-height: 450px;
-}
 @media (max-width: 768px) {
+
   .navbar {
+    padding: 15px;
     flex-direction: column;
-    gap: 10px;
-    padding: 20px;
+    align-items: center;
+    gap: 15px;
     position: static;
   }
 
@@ -813,13 +811,35 @@ body {
   }
 
   .nav-links {
+    width: 100%;
+    display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 12px;
   }
 
-  .nav-links a {
+  .nav-links a,
+  .nav-logout {
     font-size: 14px;
+  }
+
+  .search-dropdown {
+    position: fixed;
+    top: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
+    width: 90%;
+    max-width: 320px;
+    z-index: 2000;
+  }
+
+  .nav-search {
+    width: 100%;
+  }
+
+  .nav-icon {
+    font-size: 18px;
   }
 
   .hero-section {
@@ -869,5 +889,14 @@ body {
   .login-container,
   .register-container {
     width: 90%;
+  }
+
+  .create-blog {
+    width: 95%;
+    padding: 20px;
+  }
+
+  .create-blog select {
+    width: 100%;
   }
 }

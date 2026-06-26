@@ -29,7 +29,6 @@ function RichTextEditor({
     extensions: [
       StarterKit,
       Image,
-      Link,
       Table.configure({
         resizable: true,
       }),

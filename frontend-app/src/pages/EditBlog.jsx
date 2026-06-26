@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import RichTextEditor from "../components/RichTextEditor";
+import Select from "react-select";
 
 function EditBlog({ blogs, setBlogs }) {
   const { id } = useParams();
@@ -83,21 +85,21 @@ function EditBlog({ blogs, setBlogs }) {
           }
         />
 
-        <select
-          value={category}
-          onChange={(e) =>
-            setCategory(e.target.value)
+        <Select
+          value={{
+            value: category,
+            label: category,
+          }}
+          options={[
+            { value: "Tech", label: "Tech" },
+            { value: "Travel", label: "Travel" },
+            { value: "Lifestyle", label: "Lifestyle" },
+            { value: "Education", label: "Education" },
+          ]}
+          onChange={(selectedOption) =>
+            setCategory(selectedOption.value)
           }
-        >
-          <option value="Tech">Tech</option>
-          <option value="Travel">Travel</option>
-          <option value="Lifestyle">
-            Lifestyle
-          </option>
-          <option value="Education">
-            Education
-          </option>
-        </select>
+        />
 
         <input
           type="text"
@@ -107,12 +109,9 @@ function EditBlog({ blogs, setBlogs }) {
           }
         />
 
-        <textarea
-          rows="10"
-          value={content}
-          onChange={(e) =>
-            setContent(e.target.value)
-          }
+        <RichTextEditor
+          content={content}
+          setContent={setContent}
         />
 
         {error && (

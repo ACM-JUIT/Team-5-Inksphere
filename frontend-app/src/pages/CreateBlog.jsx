@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import RichTextEditor from "../components/RichTextEditor";
+import Select from "react-select";
 
 function CreateBlog({ blogs, setBlogs }) {
   const navigate = useNavigate();
@@ -94,33 +95,19 @@ function CreateBlog({ blogs, setBlogs }) {
             }}
           />
 
-          <select
-            value={category}
-            onChange={(e) => {
-              setCategory(e.target.value);
+          <Select
+            placeholder="Select Category"
+            options={[
+              { value: "Tech", label: "Tech" },
+              { value: "Travel", label: "Travel" },
+              { value: "Lifestyle", label: "Lifestyle" },
+              { value: "Education", label: "Education" },
+            ]}
+            onChange={(selectedOption) => {
+              setCategory(selectedOption.value);
               setError("");
             }}
-          >
-            <option value="">
-              Select Category
-            </option>
-
-            <option value="Tech">
-              Tech
-            </option>
-
-            <option value="Travel">
-              Travel
-            </option>
-
-            <option value="Lifestyle">
-              Lifestyle
-            </option>
-
-            <option value="Education">
-              Education
-            </option>
-          </select>
+          />
 
           <input
             type="text"
