@@ -22,7 +22,7 @@ app.use(morgan('dev'))
 app.use(express.json());
 app.use(cookieParser());
 app.use(helmet());
-app.get('/',(res,rep)=>{
+app.get('/',(res,res)=>{
     res.status(200).json({
         success: true,
         message: "InkSphere Backend API is running",
