@@ -22,6 +22,12 @@ app.use(morgan('dev'))
 app.use(express.json());
 app.use(cookieParser());
 app.use(helmet());
+app.get('/',(res,rep)=>{
+    res.status(200).json({
+        success: true,
+        message: "InkSphere Backend API is running",
+    })
+})
 app.use('/api/auth',authRoutes);
 app.use('/api/user',userRoutes);
 app.use('/api/blog', blogRoutes);
