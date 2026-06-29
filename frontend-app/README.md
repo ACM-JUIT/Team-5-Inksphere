@@ -1,16 +1,134 @@
-# React + Vite
+# InkSphere Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Core Features
 
-Currently, two official plugins are available:
+### Authentication
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+* Register
+* Login
+* Logout
 
-## React Compiler
+### User Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* User Profile
+* Edit Profile
+* Profile Picture
+* User Bio
+* View User's Published Blogs
 
-## Expanding the ESLint configuration
+### Blog Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+* Create Blog
+* Edit Blog
+* Delete Blog
+* View Blog
+* Rich Text Editor
+* Blog Cover Image
+
+### Categories
+
+* Tech
+* Travel
+* Lifestyle
+* Education
+
+### Engagement
+
+* Like Blog
+* Comment
+* Bookmark
+
+### Discovery
+
+* Search Blogs
+* Trending Blogs
+* Category Filter
+
+## Additional Features
+
+### Advanced Rich Text Editor
+
+* Bold Formatting
+* Italic Formatting
+* Strikethrough
+* Heading Support (H1, H2, H3)
+* Ordered Lists
+* Unordered Lists
+* Blockquotes
+* Code Blocks
+* Image Embedding via URL
+* Hyperlink Support
+* Table Support
+
+### Blog Experience
+
+* Reading Time Estimation
+* Blog View Counter
+* Detailed Blog Page
+* Blog Description Support
+* Cover Image Preview
+
+### UI & UX
+
+* Fully Responsive Design
+* Mobile-Friendly Layout
+* Sticky Navigation Bar
+* React Select Category Dropdown
+* Search Dropdown Interface
+* Clean Blog Cards
+* Modern Form Design
+* Custom Error Handling
+* Interactive Buttons & Icons
+
+### Navigation
+
+* React Router Based Navigation
+* Dynamic Blog Routes
+* Edit Blog Routes
+* Profile Routes
+* Trending Page
+* Not Found (404) Page
+
+## Tech Stack
+
+* React.js
+* Vite
+* React Router DOM
+* React Icons
+* React Select
+* TipTap Editor
+* CSS3
+
+## Project Structure
+
+frontend-app/
+├── src/
+│ ├── components/
+│ │ ├── BlogCard.jsx
+│ │ ├── Categories.jsx
+│ │ ├── Footer.jsx
+│ │ ├── HeroSection.jsx
+│ │ ├── Navbar.jsx
+│ │ └── RichTextEditor.jsx
+│ │
+│ ├── data/
+│ │ └── blogs.js
+│ │
+│ ├── pages/
+│ │ ├── BlogDetails.jsx
+│ │ ├── CreateBlog.jsx
+│ │ ├── EditBlog.jsx
+│ │ ├── Home.jsx
+│ │ ├── Login.jsx
+│ │ ├── NotFound.jsx
+│ │ ├── Profile.jsx
+│ │ ├── Register.jsx
+│ │ └── Trending.jsx
+│ │
+│ ├── routes/
+│ │ └── AppRoutes.jsx
+│ │
+│ ├── App.css
+│ ├── App.jsx
+│ ├── index.css
+│ └── main.jsx
