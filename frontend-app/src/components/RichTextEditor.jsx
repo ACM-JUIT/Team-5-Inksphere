@@ -18,13 +18,9 @@ import {
   FaImage,
   FaLink,
   FaTable,
-  FaPlus,
 } from "react-icons/fa";
 
-function RichTextEditor({
-  content,
-  setContent,
-}) {
+function RichTextEditor({ content, setContent }) {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -36,9 +32,7 @@ function RichTextEditor({
       TableHeader,
       TableCell,
     ],
-
     content,
-
     onUpdate: ({ editor }) => {
       setContent(editor.getHTML());
     },
@@ -49,158 +43,52 @@ function RichTextEditor({
   return (
     <div className="editor-container">
       <div className="editor-toolbar">
-
-        <button
-          type="button"
-          onClick={() =>
-            editor
-              .chain()
-              .focus()
-              .toggleBold()
-              .run()
-          }
-        >
+        <button type="button" onClick={() => editor.chain().focus().toggleBold().run()}>
           <FaBold />
         </button>
 
-        <button
-          type="button"
-          onClick={() =>
-            editor
-              .chain()
-              .focus()
-              .toggleItalic()
-              .run()
-          }
-        >
+        <button type="button" onClick={() => editor.chain().focus().toggleItalic().run()}>
           <FaItalic />
         </button>
 
-        <button
-          type="button"
-          onClick={() =>
-            editor
-              .chain()
-              .focus()
-              .toggleStrike()
-              .run()
-          }
-        >
+        <button type="button" onClick={() => editor.chain().focus().toggleStrike().run()}>
           <FaStrikethrough />
         </button>
 
-        <button
-          type="button"
-          onClick={() =>
-            editor
-              .chain()
-              .focus()
-              .toggleBulletList()
-              .run()
-          }
-        >
+        <button type="button" onClick={() => editor.chain().focus().toggleBulletList().run()}>
           <FaListUl />
         </button>
 
-        <button
-          type="button"
-          onClick={() =>
-            editor
-              .chain()
-              .focus()
-              .toggleOrderedList()
-              .run()
-          }
-        >
+        <button type="button" onClick={() => editor.chain().focus().toggleOrderedList().run()}>
           <FaListOl />
         </button>
 
-        <button
-          type="button"
-          onClick={() =>
-            editor
-              .chain()
-              .focus()
-              .toggleHeading({
-                level: 1,
-              })
-              .run()
-          }
-        >
+        <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}>
           H1
         </button>
 
-        <button
-          type="button"
-          onClick={() =>
-            editor
-              .chain()
-              .focus()
-              .toggleHeading({
-                level: 2,
-              })
-              .run()
-          }
-        >
+        <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}>
           H2
         </button>
 
-        <button
-          type="button"
-          onClick={() =>
-            editor
-              .chain()
-              .focus()
-              .toggleHeading({
-                level: 3,
-              })
-              .run()
-          }
-        >
+        <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}>
           H3
         </button>
 
-        <button
-          type="button"
-          onClick={() =>
-            editor
-              .chain()
-              .focus()
-              .toggleBlockquote()
-              .run()
-          }
-        >
+        <button type="button" onClick={() => editor.chain().focus().toggleBlockquote().run()}>
           <FaQuoteRight />
         </button>
 
-        <button
-          type="button"
-          onClick={() =>
-            editor
-              .chain()
-              .focus()
-              .toggleCodeBlock()
-              .run()
-          }
-        >
+        <button type="button" onClick={() => editor.chain().focus().toggleCodeBlock().run()}>
           <FaCode />
         </button>
 
         <button
           type="button"
           onClick={() => {
-            const url = prompt(
-              "Enter Image URL"
-            );
-
+            const url = prompt("Enter Image URL");
             if (url) {
-              editor
-                .chain()
-                .focus()
-                .setImage({
-                  src: url,
-                })
-                .run();
+              editor.chain().focus().setImage({ src: url }).run();
             }
           }}
         >
@@ -210,18 +98,9 @@ function RichTextEditor({
         <button
           type="button"
           onClick={() => {
-            const url = prompt(
-              "Enter Link URL"
-            );
-
+            const url = prompt("Enter Link URL");
             if (url) {
-              editor
-                .chain()
-                .focus()
-                .setLink({
-                  href: url,
-                })
-                .run();
+              editor.chain().focus().setLink({ href: url }).run();
             }
           }}
         >
@@ -231,20 +110,11 @@ function RichTextEditor({
         <button
           type="button"
           onClick={() =>
-            editor
-              .chain()
-              .focus()
-              .insertTable({
-                rows: 3,
-                cols: 3,
-                withHeaderRow: true,
-              })
-              .run()
+            editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()
           }
         >
           <FaTable />
         </button>
-
       </div>
 
       <EditorContent editor={editor} />

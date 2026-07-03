@@ -1,299 +1,179 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 
-function Profile({
-  blogs,
-  setBlogs,
-}) {
-  const [isEditing, setIsEditing] = useState(false);
-
-  const [name, setName] = useState("Alex Johnson");
-  const [email, setEmail] = useState("alex@example.com");
-  const [bio, setBio] = useState(
-    "Passionate blogger and content creator."
-  );
-
-  const [profileImage, setProfileImage] = useState(null);
-
-  const [error, setError] = useState("");
-
-  function getInitials(fullName) {
-    const words = fullName.trim().split(" ");
-
-    if (words.length >= 2) {
-      return (
-        words[0][0] + words[words.length - 1][0]
-      ).toUpperCase();
-    }
-
-    return words[0][0].toUpperCase();
-  }
-
-  function handleImageChange(e) {
-    const file = e.target.files[0];
-
-    if (file) {
-      setProfileImage(URL.createObjectURL(file));
-    }
-  }
-
-  function handleSave() {
-    const emailRegex =
-      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/;
-
-    if (!name || !email || !bio) {
-      setError("Please fill all fields");
-      return;
-    }
-
-    if (!emailRegex.test(email)) {
-      setError("Enter a valid email address");
-      return;
-    }
-
-    setError("");
-    setIsEditing(false);
-  }
-
-  function handleDelete(id) {
-    const confirmDelete = window.confirm(
-      "Delete this blog?"
-    );
-
-    if (confirmDelete) {
-      setBlogs(
-        blogs.filter(
-          (blog) => blog.id !== id
-        )
-      );
-    }
-  }
-
-  const totalBlogs = blogs.length;
-
-  const totalCategories = new Set(
-    blogs.map((blog) => blog.category)
-  ).size;
-
-  const latestBlog =
-    blogs.length > 0
-      ? blogs[0].title
-      : "No Blogs Yet";
-
+function Profile({ blogs, setBlogs }) {
+  const myBlogs = blogs.slice(0, 3); 
+  
   const bookmarkedBlogs = blogs.filter(
     (blog) => blog.bookmarked
   );
 
+  const handleDelete = (id) => {
+    if (window.confirm("Are you sure you want to delete this blog?")) {
+      setBlogs(blogs.filter((blog) => blog.id !== id));
+    }
+  };
+
   return (
-    <div>
-      <div className="profile-container">
-        <div className="profile-card">
-          {profileImage ? (
-            <img
-              src={profileImage}
-              alt="Profile"
-              className="profile-image"
-            />
-          ) : (
-            <div className="profile-placeholder">
-              {getInitials(name)}
-            </div>
-          )}
-
-          {isEditing ? (
-            <>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-              />
-
-              <input
-                type="text"
-                value={name}
-                placeholder="Enter Name"
-                onChange={(e) => {
-                  setName(e.target.value);
-                  setError("");
-                }}
-              />
-
-              <input
-                type="email"
-                value={email}
-                placeholder="Enter Email"
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  setError("");
-                }}
-              />
-
-              <textarea
-                rows="4"
-                value={bio}
-                placeholder="Enter Bio"
-                onChange={(e) => {
-                  setBio(e.target.value);
-                  setError("");
-                }}
-              />
-
-              {error && (
-                <p className="error-message">
-                  {error}
-                </p>
-              )}
-
-              <button onClick={handleSave}>
-                Save Changes
-              </button>
-
-              <button
-                onClick={() => {
-                  setIsEditing(false);
-                  setError("");
-                }}
-              >
-                Cancel
-              </button>
-            </>
-          ) : (
-            <>
-              <h2>{name}</h2>
-
-              <p>{email}</p>
-
-              <p>{bio}</p>
-
-              <button
-                onClick={() =>
-                  setIsEditing(true)
-                }
-              >
-                Edit Profile
-              </button>
-            </>
-          )}
-
-          <hr
-            style={{
-              margin: "25px 0",
-            }}
-          />
-
-          <h3>Blog Statistics</h3>
-
-          <div
-            style={{
-              textAlign: "left",
-              marginTop: "10px",
-              marginBottom: "20px",
-            }}
+    <div className="profile-page" style={{ padding: "40px 10%", color: "white", fontFamily: "'Inter', sans-serif" }}>
+      <div className="profile-hero" style={{ marginBottom: "40px" }}>
+        <div style={{ width: "80px", height: "80px", borderRadius: "50%", background: "linear-gradient(135deg, #3b82f6, #1e40af)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "24px", fontWeight: "bold", marginBottom: "20px" }}>JS</div>
+        <h1 style={{ fontSize: "32px", margin: "0" }}>John Smith</h1>
+        <p style={{ color: "rgba(255,255,255,0.6)" }}>Writer · Joined January 2025</p>
+        <div style={{ marginTop: "20px", display: "flex", gap: "10px" }}>
+          <Link to="/edit-profile" style={{ textDecoration: 'none' }}>
+            <button style={{ background: "transparent", border: "1px solid rgba(255,255,255,0.2)", padding: "8px 20px", borderRadius: "8px", color: "white", cursor: "pointer" }}>Edit profile</button>
+          </Link>
+          <Link
+            to="/create-blog"
+            style={{ textDecoration: "none" }}
           >
-            <p>
-              <strong>Total Blogs:</strong>{" "}
-              {totalBlogs}
-            </p>
-
-            <p>
-              <strong>Categories Used:</strong>{" "}
-              {totalCategories}
-            </p>
-
-            <p>
-              <strong>Latest Blog:</strong>{" "}
-              {latestBlog}
-            </p>
-          </div>
-
-          <hr
-            style={{
-              margin: "25px 0",
-            }}
-          />
-
-         <h3>Saved Blogs</h3>
-
-        {bookmarkedBlogs.length > 0 ? (
-          bookmarkedBlogs.map((blog) => (
-            <div
-              key={blog.id}
+            <button
               style={{
-                border: "1px solid #ddd",
-                padding: "12px",
-                marginTop: "12px",
-                borderRadius: "10px",
-                textAlign: "left",
+                background: "#3b82f6",
+                border: "none",
+                padding: "8px 20px",
+                borderRadius: "8px",
+                color: "white",
+                cursor: "pointer",
               }}
             >
-              <Link
-                to={`/blog/${blog.id}`}
-                style={{
-                  textDecoration: "none",
-                  color: "inherit",
-                }}
-              >
-                <h4>{blog.title}</h4>
+              + New blog
+            </button>
+          </Link>
+        </div>
+      </div>
 
-                <p>{blog.category}</p>
-              </Link>
-            </div>
-          ))
-        ) : (
-          <p>No bookmarked blogs yet.</p>
-        )}
+      <div style={{ display: "flex", gap: "60px", padding: "20px 0", borderTop: "1px solid #1e293b", borderBottom: "1px solid #1e293b", marginBottom: "40px" }}>
+        {[ {label: "BLOGS", val: "12"}, {label: "READERS", val: "3.4k"}, {label: "LIKES", val: "248"}, {label: "FOLLOWERS", val: "56"} ].map(s => (
+          <div key={s.label} style={{ textAlign: "center" }}>
+            <div style={{ fontSize: "20px", fontWeight: "bold", color: "#3b82f6" }}>{s.val}</div>
+            <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.4)", letterSpacing: "1px" }}>{s.label}</div>
+          </div>
+        ))}
+      </div>
 
-          <hr
-            style={{
-              margin: "25px 0",
-            }}
-          />
-
-          <h3>My Blogs</h3>
-
-          {blogs.length > 0 ? (
-            blogs.map((blog) => (
-              <div
-                key={blog.id}
-                style={{
-                  border: "1px solid #ddd",
-                  padding: "12px",
-                  marginTop: "12px",
-                  borderRadius: "10px",
-                  textAlign: "left",
-                }}
-              >
-                <h4>{blog.title}</h4>
-
-                <p>{blog.category}</p>
-
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "10px",
-                    marginTop: "10px",
-                  }}
-                >
-                  <Link
-                    to={`/edit-blog/${blog.id}`}
-                  >
-                    <button>Edit</button>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 300px", gap: "40px" }}>
+        <div className="profile-blogs">
+          <h2 style={{ marginBottom: "20px" }}>My blogs</h2>
+          {myBlogs.map(blog => (
+            <div key={blog.id} style={{ background: "rgba(255,255,255,0.03)", padding: "20px", borderRadius: "12px", marginBottom: "20px", border: "1px solid rgba(255,255,255,0.05)" }}>
+              <div style={{ fontSize: "10px", color: "#3b82f6", textTransform: "uppercase", fontWeight: "bold" }}>{blog.category}</div>
+              <h3 style={{ margin: "5px 0" }}>{blog.title}</h3>
+              <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.5)" }}>{blog.description}</p>
+              <div style={{ display: "flex", justifyContent: "space-between", marginTop: "15px", alignItems: "center" }}>
+                <span style={{ fontSize: "12px", color: "rgba(255,255,255,0.4)" }}>{blog.views} reads · {blog.likes} likes</span>
+                <div>
+                  <Link to={`/edit-blog/${blog.id}`} style={{ textDecoration: 'none' }}>
+                    <button style={{ background: "transparent", border: "none", color: "rgba(255,255,255,0.4)", marginRight: "10px", cursor: "pointer" }}>Edit</button>
                   </Link>
-
-                  <button
-                    onClick={() =>
-                      handleDelete(blog.id)
-                    }
+                  <button 
+                    onClick={() => handleDelete(blog.id)}
+                    style={{ background: "transparent", border: "none", color: "#ef4444", cursor: "pointer" }}
                   >
                     Delete
                   </button>
                 </div>
               </div>
+            </div>
+          ))}
+        
+        <h2 style={{ marginBottom: "20px", marginTop: "40px" }}>
+            🔖 Saved Blogs
+          </h2>
+
+          {bookmarkedBlogs.length > 0 ? (
+            bookmarkedBlogs.map((blog) => (
+              <div
+                key={blog.id}
+                style={{
+                  background: "rgba(255,255,255,0.03)",
+                  padding: "20px",
+                  borderRadius: "12px",
+                  marginBottom: "20px",
+                  border: "1px solid rgba(255,255,255,0.05)",
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: "10px",
+                    color: "#3b82f6",
+                    textTransform: "uppercase",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {blog.category}
+                </div>
+
+                <h3 style={{ margin: "5px 0" }}>
+                  {blog.title}
+                </h3>
+
+                <p
+                  style={{
+                    fontSize: "14px",
+                    color: "rgba(255,255,255,0.5)",
+                  }}
+                >
+                  {blog.description}
+                </p>
+
+                <Link
+                  to={`/blog/${blog.id}`}
+                  style={{ textDecoration: "none" }}
+                >
+                  <button
+                    style={{
+                      marginTop: "10px",
+                      background: "#3b82f6",
+                      border: "none",
+                      color: "white",
+                      padding: "8px 16px",
+                      borderRadius: "8px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Read More
+                  </button>
+                </Link>
+              </div>
             ))
           ) : (
-            <p>No blogs created yet.</p>
+            <div
+              style={{
+                background: "rgba(255,255,255,0.03)",
+                padding: "20px",
+                borderRadius: "12px",
+                color: "rgba(255,255,255,0.5)",
+              }}
+            >
+              No bookmarked blogs yet.
+            </div>
           )}
+          
         </div>
+
+        <aside>
+          <div style={{ background: "rgba(255,255,255,0.03)", padding: "20px", borderRadius: "12px", marginBottom: "20px" }}>
+            <h4 style={{ marginBottom: "10px" }}>About</h4>
+            <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.5)" }}>Passionate writer covering tech, travel and lifestyle. I write to learn and share what I discover along the way.</p>
+          </div>
+          <div style={{ background: "rgba(255,255,255,0.03)", padding: "20px", borderRadius: "12px", marginBottom: "20px" }}>
+            <h4 style={{ marginBottom: "10px" }}>Info</h4>
+            <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.5)" }}>
+              <p>john@example.com</p>
+              <p>Mumbai, India</p>
+              <p>Joined Jan 2025</p>
+            </div>
+          </div>
+          <div style={{ background: "rgba(255,255,255,0.03)", padding: "20px", borderRadius: "12px" }}>
+            <h4 style={{ marginBottom: "10px" }}>Interests</h4>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+              {["Tech", "Travel", "Lifestyle", "React", "Writing"].map(tag => (
+                <span key={tag} style={{ background: "rgba(255,255,255,0.1)", padding: "4px 10px", borderRadius: "15px", fontSize: "12px" }}>{tag}</span>
+              ))}
+            </div>
+          </div>
+        </aside>
       </div>
     </div>
   );

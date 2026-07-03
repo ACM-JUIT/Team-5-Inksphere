@@ -4,60 +4,42 @@ function BlogCard({
   id,
   title,
   description,
-  content,
   category,
   image,
-  likes = 0,
-  views = 0,
+  setBlogs,
+  authorInitials = "JS",
+  authorName = "John Smith"
 }) {
+  function handleViewIncrement() {
+    const viewedBlogs = JSON.parse(localStorage.getItem("viewedBlogs")) || [];
+    if (!viewedBlogs.includes(id)) {
+      setBlogs((prevBlogs) =>
+        prevBlogs.map((item) =>
+          item.id === id ? { ...item, views: (item.views || 0) + 1 } : item
+        )
+      );
+      localStorage.setItem("viewedBlogs", JSON.stringify([...viewedBlogs, id]));
+    }
+  }
+
   return (
-    <div className="blog-card">
-      <img
-        src={image}
-        alt="blog"
-      />
-
-      <h3>{title}</h3>
-
-      <p>{description}</p>
-
-      <p className="card-reading-time">
-        ⏱️{" "}
-        {Math.max(
-          1,
-          Math.ceil(
-            (
-              content ||
-              description ||
-              ""
-            ).split(" ").length / 200
-          )
-        )}{" "}
-        min read
-      </p>
-
-      <p className="card-views">
-        👁️ {views} Views
-      </p>
-
-      <span>{category}</span>
-
-      <p
-        style={{
-          marginTop: "10px",
-          fontWeight: "bold",
-        }}
-      >
-        ❤️ {likes} Likes
-      </p>
-
-      <br />
-
-      <Link to={`/blog/${id}`}>
-        <button>
-          Read More
-        </button>
-      </Link>
+    <div className="home-blog-card">
+      <img src={image} alt={title} />
+      <div className="home-blog-body">
+        <div className="home-blog-tag">{category}</div>
+        <h3>{title}</h3>
+        <p>{description}</p>
+        
+        <div className="home-blog-foot">
+          <div className="home-blog-author">
+            <div className="home-blog-av">{authorInitials}</div>
+            <span>{authorName}</span>
+          </div>
+          <Link to={`/blog/${id}`} onClick={handleViewIncrement}>
+            <button className="home-read-btn">Read more →</button>
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }
