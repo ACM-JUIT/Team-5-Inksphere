@@ -1,153 +1,110 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import { ImagePlus, X } from 'lucide-react';
+import { createBlog } from '../api/blog.api';
+import { extractErrorMessage } from '../api/axios';
+import { CATEGORIES } from '../utils/categories';
+import { Label, Input, Textarea, Select, FieldError } from '../components/common/Field';
+import Button from '../components/common/Button';
 
-function CreateBlog() {
-  const [content, setContent] = useState("");
-  const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("");
+export default function CreateBlog() {
+  const navigate = useNavigate();
+  const fileInput = useRef(null);
+  const [form, setForm] = useState({ title: '', content: '', category: 'General' });
+  const [cover, setCover] = useState(null);
+  const [preview, setPreview] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const wordCount = content.trim() === "" ? 0 : content.trim().split(/\s+/).length;
+  const handleChange = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+
+  const handleFile = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setCover(file);
+    setPreview(URL.createObjectURL(file));
+  };
+
+  const clearFile = () => {
+    setCover(null);
+    setPreview('');
+    if (fileInput.current) fileInput.current.value = '';
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!form.title.trim() || !form.content.trim()) {
+      setError('Title and content are required.');
+      return;
+    }
+    setError('');
+    setLoading(true);
+    try {
+      await createBlog({ ...form, coverImage: cover });
+      toast.success('Story published');
+      navigate('/');
+    } catch (err) {
+      setError(extractErrorMessage(err, 'Could not publish your story.'));
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div>
-      <nav className="navbar">
-        <div className="nav-brand">
-          <div className="nav-dot">✍</div>
-          <span className="nav-name">InkSphere</span>
+    <div className="mx-auto max-w-2xl px-5 py-12 sm:px-8">
+      <p className="mb-2 font-mono text-xs uppercase tracking-widest text-[color:var(--color-teal)]">New story</p>
+      <h1 className="font-display text-3xl font-semibold text-[color:var(--color-ink)]">Write something worth reading</h1>
+
+      <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-5">
+        <div>
+          <Label htmlFor="title">Title</Label>
+          <Input id="title" name="title" value={form.title} onChange={handleChange} placeholder="A working title" required />
         </div>
-        <div className="nav-right">
-          <Link to="/">Home</Link>
-          <button className="save-draft-btn">💾 Save draft</button>
-          <button className="publish-btn">🚀 Publish</button>
+
+        <div>
+          <Label htmlFor="category">Category</Label>
+          <Select id="category" name="category" value={form.category} onChange={handleChange}>
+            {CATEGORIES.map((c) => (
+              <option key={c.value} value={c.value}>{c.value}</option>
+            ))}
+          </Select>
         </div>
-      </nav>
 
-      <div className="create-layout">
-        <div className="editor-side">
-
-          <div className="editor-field">
-            <label>Blog title</label>
-            <input
-              className="title-input"
-              type="text"
-              placeholder="Write a compelling title..."
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-          </div>
-
-          <div className="editor-row2">
-            <div className="editor-field">
-              <label>Category</label>
-              <select
-                className="editor-select"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
+        <div>
+          <Label>Cover image</Label>
+          {preview ? (
+            <div className="relative w-full overflow-hidden rounded-sm border border-[color:var(--color-paper-line)]">
+              <img src={preview} alt="Cover preview" className="h-48 w-full object-cover" />
+              <button
+                type="button"
+                onClick={clearFile}
+                className="absolute right-2 top-2 rounded-full bg-[color:var(--color-ink)] p-1.5 text-white"
               >
-                <option value="">Select category</option>
-                <option>Tech</option>
-                <option>Travel</option>
-                <option>Lifestyle</option>
-                <option>Education</option>
-              </select>
+                <X className="h-4 w-4" />
+              </button>
             </div>
-            <div className="editor-field">
-              <label>Tags</label>
-              <input
-                className="tags-input"
-                type="text"
-                placeholder="e.g. react, webdev"
-              />
-            </div>
-          </div>
-
-          <div className="editor-field">
-            <label>Content</label>
-            <div className="toolbar">
-              <button className="tb-btn"><b>B</b></button>
-              <button className="tb-btn"><i>I</i></button>
-              <button className="tb-btn"><u>U</u></button>
-              <div className="tb-sep"></div>
-              <button className="tb-btn">H1</button>
-              <button className="tb-btn">H2</button>
-              <div className="tb-sep"></div>
-              <button className="tb-btn">• List</button>
-              <button className="tb-btn">1. List</button>
-              <button className="tb-btn">" Quote</button>
-              <div className="tb-sep"></div>
-              <button className="tb-btn">🔗 Link</button>
-              <button className="tb-btn">🖼 Image</button>
-              <button className="tb-btn">{"<>"} Code</button>
-            </div>
-            <textarea
-              className="content-area"
-              placeholder="Start writing your blog here... Share your ideas, insights and stories with the world."
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-            />
-            <div className="word-count">
-              {wordCount} {wordCount === 1 ? "word" : "words"}
-            </div>
-          </div>
-
+          ) : (
+            <label className="flex h-32 cursor-pointer flex-col items-center justify-center gap-2 rounded-sm border border-dashed border-[color:var(--color-paper-line)] text-[color:var(--color-muted)] hover:border-[color:var(--color-teal)] hover:text-[color:var(--color-teal)]">
+              <ImagePlus className="h-6 w-6" />
+              <span className="text-sm">Click to upload an image</span>
+              <input ref={fileInput} type="file" accept="image/*" onChange={handleFile} className="hidden" />
+            </label>
+          )}
         </div>
 
-        <div className="create-right-side">
-
-          <div className="create-panel">
-            <h4>🖼 Cover image</h4>
-            <div className="cover-upload">
-              <p className="upload-icon">☁</p>
-              <p>Click to upload cover image</p>
-              <span>PNG, JPG up to 5MB</span>
-            </div>
-          </div>
-
-          <div className="create-panel">
-            <h4>✅ Publishing checklist</h4>
-            <div className="checklist">
-              <div className="check-item">
-                <span className={title ? "check-done" : "check-pending"}>
-                  {title ? "✓" : "○"}
-                </span>
-                Title added
-              </div>
-              <div className="check-item">
-                <span className={category ? "check-done" : "check-pending"}>
-                  {category ? "✓" : "○"}
-                </span>
-                Category selected
-              </div>
-              <div className="check-item">
-                <span className="check-pending">○</span>
-                Cover image uploaded
-              </div>
-              <div className="check-item">
-                <span className={wordCount > 50 ? "check-done" : "check-pending"}>
-                  {wordCount > 50 ? "✓" : "○"}
-                </span>
-                Content written (min 50 words)
-              </div>
-            </div>
-          </div>
-
-          <div className="create-panel">
-            <h4>💡 Writing tips</h4>
-            <div className="tip-item">
-              <p>Start with a hook — a question or bold statement grabs readers instantly.</p>
-            </div>
-            <div className="tip-item">
-              <p>Use short paragraphs and headings to make your blog easy to scan.</p>
-            </div>
-            <div className="tip-item">
-              <p>A good cover image increases clicks by up to 3x.</p>
-            </div>
-          </div>
-
+        <div>
+          <Label htmlFor="content">Content</Label>
+          <Textarea id="content" name="content" rows={14} value={form.content} onChange={handleChange} placeholder="Begin your story…" required />
         </div>
-      </div>
+
+        <FieldError>{error}</FieldError>
+
+        <div className="flex justify-end gap-3">
+          <Button type="button" variant="ghost" onClick={() => navigate(-1)}>Cancel</Button>
+          <Button type="submit" variant="gold" loading={loading}>Publish story</Button>
+        </div>
+      </form>
     </div>
   );
 }
-
-export default CreateBlog;

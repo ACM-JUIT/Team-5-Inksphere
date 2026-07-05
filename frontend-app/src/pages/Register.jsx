@@ -1,112 +1,67 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import { useAuth } from '../hooks/useAuth';
+import { Label, Input, FieldError } from '../components/common/Field';
+import Button from '../components/common/Button';
 
-function Register() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [password, setPassword] = useState("");
+export default function Register() {
+  const { register } = useAuth();
+  const navigate = useNavigate();
+  const [form, setForm] = useState({ username: '', email: '', password: '' });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const getStrength = () => {
-    let score = 0;
-    if (password.length >= 8) score++;
-    if (/[A-Z]/.test(password)) score++;
-    if (/[0-9]/.test(password)) score++;
-    if (/[^A-Za-z0-9]/.test(password)) score++;
-    return score;
+  const handleChange = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+    const result = await register(form);
+    setLoading(false);
+    if (result.success) {
+      toast.success('Account created — sign in to continue');
+      navigate('/login');
+    } else {
+      setError(result.message);
+    }
   };
 
-  const labels = ["", "Weak", "Fair", "Good", "Strong"];
-  const colors = ["", "#ef4444", "#f97316", "#3b82f6", "#22c55e"];
-  const strength = getStrength();
-
   return (
-    <div className="reg-page">
+    <div className="mx-auto flex min-h-[80vh] max-w-md flex-col justify-center px-5 py-16 sm:px-0">
+      <p className="mb-2 font-mono text-xs uppercase tracking-widest text-[color:var(--color-teal)]">Join InkSphere</p>
+      <h1 className="font-display text-3xl font-semibold text-[color:var(--color-ink)]">Create your account</h1>
 
-      <div className="rball rb1"></div>
-      <div className="rball rb2"></div>
-      <div className="rball rb3"></div>
-      <div className="rball rb4"></div>
-      <div className="rball rb5"></div>
-      <div className="rball rb6"></div>
-
-      <div className="reg-glass">
-        <div className="reg-logo">
-          <div className="reg-logo-dot">✍</div>
-          <span>InkSphere</span>
+      <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-5">
+        <div>
+          <Label htmlFor="username">Username</Label>
+          <Input id="username" name="username" value={form.username} onChange={handleChange} placeholder="janedoe" required minLength={5} maxLength={12} />
+          <p className="mt-1 text-xs text-[color:var(--color-muted)]">5–12 characters.</p>
+        </div>
+        <div>
+          <Label htmlFor="email">Email</Label>
+          <Input id="email" name="email" type="email" value={form.email} onChange={handleChange} placeholder="jane@example.com" required />
+        </div>
+        <div>
+          <Label htmlFor="password">Password</Label>
+          <Input id="password" name="password" type="password" value={form.password} onChange={handleChange} placeholder="••••••••" required minLength={8} />
+          <p className="mt-1 text-xs text-[color:var(--color-muted)]">8+ characters, with upper &amp; lower case, a number and a symbol.</p>
         </div>
 
-        <h1>Create account</h1>
-        <p className="reg-sub">Join thousands of writers on InkSphere</p>
+        <FieldError>{error}</FieldError>
 
-        <div className="reg-field">
-          <label>Full name</label>
-          <div className="reg-iw">
-            <input type="text" placeholder="Your full name" />
-          </div>
-        </div>
+        <Button type="submit" size="lg" loading={loading} className="mt-1">
+          Create account
+        </Button>
+      </form>
 
-        <div className="reg-field">
-          <label>Email</label>
-          <div className="reg-iw">
-            <input type="email" placeholder="you@example.com" />
-          </div>
-        </div>
-
-        <div className="reg-field">
-          <label>Password</label>
-          <div className="reg-iw">
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Create a password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <button
-              className="reg-eye"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? "Hide" : "Show"}
-            </button>
-          </div>
-          <div className="strength-row">
-            {[1, 2, 3, 4].map((i) => (
-              <div
-                key={i}
-                className="s-seg"
-                style={{
-                  background: i <= strength ? colors[strength] : "rgba(255,255,255,0.1)",
-                }}
-              />
-            ))}
-          </div>
-          <div className="s-label" style={{ color: password.length === 0 ? "rgba(255,255,255,0.3)" : colors[strength] }}>
-            {password.length === 0 ? "Min 8 characters" : labels[strength]}
-          </div>
-        </div>
-
-        <div className="terms-row">
-          <input type="checkbox" id="terms" />
-          <span>
-            I agree to the <Link to="/terms">Terms of Service</Link> and{" "}
-            <Link to="/privacy">Privacy Policy</Link>
-          </span>
-        </div>
-
-        <button className="reg-submit">Create account</button>
-
-        <div className="reg-divider">
-          <div className="reg-dline"></div>
-          <span>or continue with</span>
-          <div className="reg-dline"></div>
-        </div>
-
-        <button className="reg-google">Continue with Google</button>
-
-        <p className="reg-login">
-          Already have an account? <Link to="/login">Sign in</Link>
-        </p>
-      </div>
+      <p className="mt-8 text-center text-sm text-[color:var(--color-muted)]">
+        Already have an account?{' '}
+        <Link to="/login" className="font-medium text-[color:var(--color-teal)] hover:underline">
+          Sign in
+        </Link>
+      </p>
     </div>
   );
 }
-
-export default Register;

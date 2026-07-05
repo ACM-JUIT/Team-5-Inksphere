@@ -1,225 +1,120 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
+import { getAllBlogs, getTrendingBlogs } from '../api/blog.api';
+import { useAuth } from '../hooks/useAuth';
+import BlogList from '../components/blog/BlogList';
+import BlogCard from '../components/blog/BlogCard';
+import Loader from '../components/common/Loader';
+import Button from '../components/common/Button';
 
-function Home() {
-  const [activeCategory, setActiveCategory] = useState("All");
-  const [currentSlide, setCurrentSlide] = useState(0);
+export default function Home() {
+  const { isAuthenticated } = useAuth();
+  const [blogs, setBlogs] = useState([]);
+  const [trending, setTrending] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [trendingLoading, setTrendingLoading] = useState(true);
 
-  const slides = [
-    {
-      id: 1,
-      image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=1200&q=80",
-      badge: "Welcome to InkSphere",
-      title: "Where great ideas",
-      titleItalic: "find their voice",
-      desc: "A premium space to read, write and connect with the world's most passionate writers.",
-      btn1: "Start writing",
-      btn2: "Explore blogs",
-    },
-    {
-      id: 2,
-      image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80",
-      badge: "Travel",
-      title: "Discover the world",
-      titleItalic: "through stories",
-      desc: "Read travel diaries from writers who have explored the most extraordinary corners of our planet.",
-      btn1: "Read travel blogs",
-      btn2: "Share your journey",
-    },
-    {
-      id: 3,
-      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&q=80",
-      badge: "Technology",
-      title: "Stay ahead with",
-      titleItalic: "tech insights",
-      desc: "Deep dives into software, AI, design and everything shaping the digital future.",
-      btn1: "Read tech blogs",
-      btn2: "Write a tech blog",
-    },
-    {
-      id: 4,
-      image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1200&q=80",
-      badge: "Lifestyle",
-      title: "Live better,",
-      titleItalic: "think deeper",
-      desc: "Thoughtful writing on mindfulness, productivity, wellness and the art of living well.",
-      btn1: "Read lifestyle blogs",
-      btn2: "Start your story",
-    },
-    {
-      id: 5,
-      image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1200&q=80",
-      badge: "Education",
-      title: "Learn something",
-      titleItalic: "new every day",
-      desc: "Curated educational content from experts across science, history and beyond.",
-      btn1: "Explore education",
-      btn2: "Teach the world",
-    },
-  ];
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await getAllBlogs();
+        setBlogs(data.blogs || []);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
 
-  const blogs = [
-    { id: 1, category: "Tech", title: "Getting started with React hooks", desc: "A beginner-friendly guide to useState, useEffect and more.", author: "Arjun K.", initials: "AK", image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&q=80" },
-    { id: 2, category: "Travel", title: "Hidden gems of Southeast Asia", desc: "Places most tourists never find on the usual travel routes.", author: "Priya S.", initials: "PS", image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=600&q=80" },
-    { id: 3, category: "Lifestyle", title: "Morning routines that actually work", desc: "Simple habits that set a productive tone for your whole day.", author: "Riya N.", initials: "RN", image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&q=80" },
-    { id: 4, category: "Education", title: "How to study smarter, not harder", desc: "Science-backed techniques to improve memory and focus.", author: "Sai M.", initials: "SM", image: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600&q=80" },
-    { id: 5, category: "Tech", title: "Python vs JavaScript in 2026", desc: "Which language should you learn first as a beginner?", author: "Rohan V.", initials: "RV", image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80" },
-    { id: 6, category: "Travel", title: "Solo travel tips for first timers", desc: "Everything you wish you knew before your first solo trip.", author: "Diya K.", initials: "DK", image: "https://images.unsplash.com/photo-1488085061387-422e29b40080?w=600&q=80" },
-  ];
-
-  const marqueeImages = [
-    "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=400&q=70",
-    "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=70",
-    "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=400&q=70",
-    "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&q=70",
-    "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&q=70",
-    "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=400&q=70",
-    "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400&q=70",
-    "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400&q=70",
-  ];
-
-  const categories = ["All", "Tech", "Travel", "Lifestyle", "Education"];
-
-  const filtered = activeCategory === "All"
-    ? blogs
-    : blogs.filter((b) => b.category === activeCategory);
-
-  const goTo = (n) => setCurrentSlide(n);
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setTrendingLoading(false);
+      return;
+    }
+    (async () => {
+      try {
+        const { data } = await getTrendingBlogs();
+        setTrending((data.blogs || []).slice(0, 3));
+      } finally {
+        setTrendingLoading(false);
+      }
+    })();
+  }, [isAuthenticated]);
 
   return (
-    <div className="home-page">
-
-      <nav className="home-nav">
-        <div className="home-nav-brand">
-          <div className="home-nav-dot">✍</div>
-          <span className="home-nav-name">InkSphere</span>
-        </div>
-        <div className="home-nav-links">
-          <Link to="/">Home</Link>
-          <Link to="/login">Login</Link>
-          <Link to="/register">Register</Link>
-          <Link to="/profile">Profile</Link>
-          <Link to="/create-blog">
-            <button className="home-nav-write">+ Write</button>
-          </Link>
-        </div>
-      </nav>
-
-      <div className="home-hero">
-        <div
-          className="home-slides"
-          style={{ transform: `translateX(-${currentSlide * 20}%)` }}
-        >
-          {slides.map((slide) => (
-            <div className="home-slide" key={slide.id}>
-              <img src={slide.image} alt={slide.badge} />
-              <div className="home-slide-overlay"></div>
-              <div className="home-slide-text">
-                <div className="home-slide-badge">{slide.badge}</div>
-                <h1>
-                  {slide.title}
-                  <br />
-                  <em>{slide.titleItalic}</em>
-                </h1>
-                <p>{slide.desc}</p>
-                <div className="home-hero-btns">
-                  <button className="home-hb1">{slide.btn1}</button>
-                  <button className="home-hb2">{slide.btn2}</button>
-                </div>
-              </div>
+    <div>
+      {/* Hero */}
+      <section className="border-b border-[color:var(--color-paper-line)] bg-[color:var(--color-paper-dim)]">
+        <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 sm:px-8 sm:py-24 md:grid-cols-[1.3fr_1fr] md:items-center">
+          <div>
+            <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-[color:var(--color-teal)]">Volume I &middot; Est. 2026</p>
+            <h1 className="font-display text-4xl font-semibold leading-[1.1] text-[color:var(--color-ink)] sm:text-5xl md:text-6xl">
+              Ideas worth
+              <br />
+              <span className="ink-underline">
+                putting to paper
+                <svg viewBox="0 0 340 24" preserveAspectRatio="none" aria-hidden="true">
+                  <path d="M4 14C60 22 260 22 336 8" pathLength="340" />
+                </svg>
+              </span>
+            </h1>
+            <p className="mt-6 max-w-md text-lg text-[color:var(--color-muted)]">
+              InkSphere is a quiet corner of the internet for essays, field notes and long-form
+              thinking — written by people, read by people.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Button as={Link} to={isAuthenticated ? '/write' : '/register'} variant="primary" size="lg">
+                {isAuthenticated ? 'Start writing' : 'Join InkSphere'} <ArrowRight className="h-4 w-4" />
+              </Button>
+              <Button as={Link} to="/category" variant="outline" size="lg">
+                Browse categories
+              </Button>
             </div>
-          ))}
-        </div>
-        <div className="home-dots">
-          {slides.map((_, i) => (
-            <div
-              key={i}
-              className={`home-dot ${currentSlide === i ? "active" : ""}`}
-              onClick={() => goTo(i)}
-            />
-          ))}
-        </div>
-      </div>
+          </div>
 
-      <div className="home-stats">
-        <div className="home-stat"><strong>12k+</strong><span>Writers</span></div>
-        <div className="home-stat"><strong>48k+</strong><span>Blogs</span></div>
-        <div className="home-stat"><strong>200k+</strong><span>Readers</span></div>
-        <div className="home-stat"><strong>4</strong><span>Categories</span></div>
-      </div>
-
-      <div className="home-cats">
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            className={`home-cat ${activeCategory === cat ? "active" : ""}`}
-            onClick={() => setActiveCategory(cat)}
-          >
-            {cat}
-          </button>
-        ))}
-      </div>
-
-      <div className="home-blogs">
-        <div className="home-blogs-head">
-          <h2>Latest blogs</h2>
-          <a href="#">View all →</a>
+          <div className="hidden justify-self-end md:block">
+            <svg width="220" height="260" viewBox="0 0 220 260" fill="none" aria-hidden="true">
+              <rect x="20" y="10" width="160" height="220" rx="2" fill="white" stroke="var(--color-paper-line)" strokeWidth="2" />
+              <rect x="20" y="10" width="10" height="220" fill="var(--color-cat-tech)" />
+              <line x1="52" y1="50" x2="152" y2="50" stroke="var(--color-paper-line)" strokeWidth="2" />
+              <line x1="52" y1="70" x2="164" y2="70" stroke="var(--color-paper-line)" strokeWidth="2" />
+              <line x1="52" y1="90" x2="140" y2="90" stroke="var(--color-paper-line)" strokeWidth="2" />
+              <rect x="44" y="16" width="150" height="210" rx="2" fill="var(--color-paper)" stroke="var(--color-ink)" strokeWidth="2" />
+              <rect x="44" y="16" width="10" height="210" fill="var(--color-gold)" />
+              <line x1="76" y1="56" x2="176" y2="56" stroke="var(--color-paper-line)" strokeWidth="2" />
+              <line x1="76" y1="76" x2="188" y2="76" stroke="var(--color-paper-line)" strokeWidth="2" />
+              <line x1="76" y1="96" x2="160" y2="96" stroke="var(--color-paper-line)" strokeWidth="2" />
+              <line x1="76" y1="120" x2="184" y2="120" stroke="var(--color-paper-line)" strokeWidth="2" />
+              <line x1="76" y1="140" x2="150" y2="140" stroke="var(--color-paper-line)" strokeWidth="2" />
+            </svg>
+          </div>
         </div>
-        <div className="home-blogs-grid">
-          {filtered.map((blog) => (
-            <div className="home-blog-card" key={blog.id}>
-              <img src={blog.image} alt={blog.title} />
-              <div className="home-blog-body">
-                <div className="home-blog-tag">{blog.category}</div>
-                <h3>{blog.title}</h3>
-                <p>{blog.desc}</p>
-                <div className="home-blog-foot">
-                  <div className="home-blog-author">
-                    <div className="home-blog-av">{blog.initials}</div>
-                    <span>{blog.author}</span>
-                  </div>
-                  <Link to="/blog">
-                    <button className="home-read-btn">Read more →</button>
-                  </Link>
-                </div>
-              </div>
+      </section>
+
+      {isAuthenticated && (
+        <section className="mx-auto max-w-6xl px-5 pt-12 sm:px-8">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="font-display text-2xl font-semibold text-[color:var(--color-ink)]">Trending now</h2>
+            <Link to="/trending" className="flex items-center gap-1 text-sm font-medium text-[color:var(--color-teal)] hover:underline">
+              See all <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+          {trendingLoading ? (
+            <Loader label="Fetching trending stories" />
+          ) : trending.length > 0 ? (
+            <div className="grid gap-4 sm:grid-cols-3">
+              {trending.map((blog) => (
+                <BlogCard key={blog._id} blog={blog} />
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
+          ) : null}
+        </section>
+      )}
 
-      <div className="home-marquee">
-        <div className="home-marquee-label">Featured stories from around the world</div>
-        <div className="home-marquee-track">
-          {[...marqueeImages, ...marqueeImages].map((img, i) => (
-            <div className="home-marquee-item" key={i}>
-              <img src={img} alt="featured" />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="home-newsletter">
-        <h2>Get the best blogs in your <em>inbox</em></h2>
-        <p>Weekly digest of top stories. No spam, ever. Unsubscribe anytime.</p>
-        <div className="home-nl-row">
-          <input type="email" placeholder="your@email.com" className="home-nl-input" />
-          <button className="home-nl-btn">Subscribe</button>
-        </div>
-      </div>
-
-      <div className="home-footer">
-        <span>InkSphere</span>
-        <div className="home-footer-links">
-          <a href="#">About</a>
-          <a href="#">Privacy</a>
-          <a href="#">Terms</a>
-          <a href="#">Contact</a>
-        </div>
-      </div>
-
+      <section className="mx-auto max-w-6xl px-5 py-12 sm:px-8">
+        <h2 className="mb-4 font-display text-2xl font-semibold text-[color:var(--color-ink)]">Latest stories</h2>
+        <BlogList blogs={blogs} loading={loading} emptyTitle="No stories published yet" emptyDescription="Be the first to share something worth reading." />
+      </section>
     </div>
   );
 }
-
-export default Home;
