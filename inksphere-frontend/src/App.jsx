@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import Layout from './components/layout/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
+import SplashScreen from './components/SplashScreen';
 
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -19,9 +21,25 @@ import CategoryPage from './pages/CategoryPage';
 import Trending from './pages/Trending';
 import NotFound from './pages/NotFound';
 
+const SPLASH_SESSION_KEY = 'inksphere-splash-shown';
+
 export default function App() {
+  // Plays once per browser session (a page refresh keeps it hidden;
+  // a fresh tab/session shows it again) — the rest of the app mounts
+  // and starts fetching underneath it, so content is ready the moment
+  // the splash fades out.
+  const [showSplash, setShowSplash] = useState(
+    () => typeof window !== 'undefined' && !sessionStorage.getItem(SPLASH_SESSION_KEY),
+  );
+
+  const handleSplashFinish = () => {
+    sessionStorage.setItem(SPLASH_SESSION_KEY, 'true');
+    setShowSplash(false);
+  };
+
   return (
     <>
+      {showSplash && <SplashScreen onFinish={handleSplashFinish} />}
       <Toaster
         position="top-center"
         toastOptions={{
