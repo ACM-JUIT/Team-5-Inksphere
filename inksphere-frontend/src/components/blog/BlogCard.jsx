@@ -4,14 +4,14 @@ import { categoryColor } from '../../utils/categories';
 import { formatDate, estimateReadTime } from '../../utils/formatDate';
 import Avatar from '../common/Avatar';
 
-export default function BlogCard({ blog }) {
+export default function BlogCard({ blog, index = 0 }) {
   const spine = categoryColor(blog.category);
 
   return (
     <Link
       to={`/blog/${blog._id}`}
-      className="group relative flex gap-4 overflow-hidden rounded-sm border border-[color:var(--color-paper-line)] bg-white/50 pl-4 transition-shadow hover:shadow-[0_4px_24px_-8px_rgba(22,21,31,0.18)] sm:gap-5"
-      style={{ borderLeft: `4px solid ${spine}` }}
+      className="card-lift group relative flex animate-fade-up gap-4 overflow-hidden rounded-lg border border-[color:var(--color-paper-line)] bg-white/60 pl-4 sm:gap-5"
+      style={{ borderLeft: `4px solid ${spine}`, animationDelay: `${Math.min(index, 8) * 60}ms` }}
     >
       <div className="flex-1 py-4 pr-4 sm:py-5">
         <div className="mb-2 flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest" style={{ color: spine }}>
@@ -20,8 +20,10 @@ export default function BlogCard({ blog }) {
           <span className="text-[color:var(--color-muted)] normal-case tracking-normal">{estimateReadTime(blog.content)}</span>
         </div>
 
-        <h3 className="font-display text-xl font-semibold leading-snug text-[color:var(--color-ink)] group-hover:underline decoration-[color:var(--color-gold)] decoration-2 underline-offset-4 sm:text-2xl">
-          {blog.title}
+        <h3 className="font-display text-xl font-semibold leading-snug text-[color:var(--color-ink)] transition-colors group-hover:text-[color:var(--color-teal-dark)] sm:text-2xl">
+          <span className="bg-[linear-gradient(var(--color-gold),var(--color-gold))] bg-[length:0%_2px] bg-left-bottom bg-no-repeat pb-0.5 transition-[background-size] duration-300 ease-out group-hover:bg-[length:100%_2px]">
+            {blog.title}
+          </span>
         </h3>
 
         <p className="mt-2 line-clamp-2 text-sm text-[color:var(--color-muted)] sm:text-[15px]">
@@ -45,7 +47,7 @@ export default function BlogCard({ blog }) {
           <img
             src={blog.coverImage}
             alt=""
-            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-110"
           />
         </div>
       )}

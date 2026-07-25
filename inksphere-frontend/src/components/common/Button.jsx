@@ -2,11 +2,11 @@ import { forwardRef } from 'react';
 import clsx from 'clsx';
 
 const variants = {
-  primary: 'bg-[color:var(--color-ink)] text-[color:var(--color-paper)] hover:bg-[color:var(--color-ink-soft)]',
-  gold: 'bg-[color:var(--color-gold)] text-[color:var(--color-ink)] hover:bg-[color:var(--color-gold-dark)] hover:text-white',
+  primary: 'bg-[color:var(--color-ink)] text-[color:var(--color-paper)] hover:bg-[color:var(--color-ink-soft)] shadow-sm hover:shadow-md',
+  gold: 'bg-[color:var(--color-gold)] text-[color:var(--color-ink)] hover:bg-[color:var(--color-gold-dark)] hover:text-white shadow-sm hover:shadow-[0_10px_24px_-10px_rgba(201,150,44,0.6)]',
   outline: 'border border-[color:var(--color-ink)] text-[color:var(--color-ink)] hover:bg-[color:var(--color-ink)] hover:text-[color:var(--color-paper)]',
   ghost: 'text-[color:var(--color-ink)] hover:bg-[color:var(--color-paper-dim)]',
-  danger: 'bg-[color:var(--color-crimson)] text-white hover:opacity-90',
+  danger: 'bg-[color:var(--color-crimson)] text-white hover:opacity-90 shadow-sm',
 };
 
 const sizes = {
@@ -24,7 +24,7 @@ const Button = forwardRef(function Button(
       ref={ref}
       disabled={disabled || loading}
       className={clsx(
-        'inline-flex items-center justify-center gap-2 rounded-sm font-medium tracking-wide transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-50',
+        'btn-press inline-flex items-center justify-center gap-2 rounded-full font-medium tracking-wide transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none',
         variants[variant],
         sizes[size],
         className,

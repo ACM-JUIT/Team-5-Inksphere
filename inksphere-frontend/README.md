@@ -74,3 +74,16 @@ The visual identity ("ink & paper") pairs a Fraunces display serif with Inter fo
 and JetBrains Mono for meta/utility text. Each blog category has a dedicated color used as a
 "spine" accent on story cards and category tabs, evoking a library card catalog. Colors and
 type are defined as CSS variables in `src/index.css` under `@theme`.
+
+### First-visit splash screen
+
+`src/components/SplashScreen.jsx` plays a short ink-drop animation (drop falls, ripples, the
+wordmark rises) the first time someone opens the site in a browser session. It's gated by
+`sessionStorage` (see `SPLASH_SESSION_KEY` in `App.jsx`), so it won't replay on internal
+navigation, but it will play again in a new tab or after the tab is closed and reopened. The
+rest of the app mounts and starts fetching data underneath the splash, so content is ready the
+moment it fades out. It respects `prefers-reduced-motion` by shortening to a near-instant fade.
+
+To show it on every full page load instead of once per session, swap `sessionStorage` for a
+check you don't persist (or remove the check entirely). To retire it, remove the `SplashScreen`
+import/usage in `App.jsx`.
