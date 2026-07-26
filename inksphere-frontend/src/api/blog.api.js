@@ -15,7 +15,7 @@ export const getAllBlogs = () => api.get('/blog/blogs');
 
 export const getLatestBlogs = () => api.get('/blog/blog/latestblog');
 
-export const getTrendingBlogs = () => api.get('/blogs/trendingblogs');
+export const getTrendingBlogs = () => api.get('/blog/blogs/trendingblogs');
 
 export const getBlogById = (id) => api.get(`/blog/blog/${id}`);
 
