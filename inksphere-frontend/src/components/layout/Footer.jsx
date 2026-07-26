@@ -85,9 +85,9 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="tel:+18005550142" className="flex items-center gap-2.5 text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)]">
+                <a href="tel:+9537901205" className="flex items-center gap-2.5 text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)]">
                   <Phone className="h-4 w-4 shrink-0 text-[color:var(--color-muted)]" />
-                  +1 (800) 555-0142
+                  +91 9537901205
                 </a>
               </li>
               <li className="flex items-center gap-2.5 text-[color:var(--color-muted)]">
