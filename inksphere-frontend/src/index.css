@@ -8,6 +8,7 @@
   --color-paper-dim: #f1efe9;
   --color-paper-line: #e4e1d8;
   --color-muted: #6b6a75;
+  --color-surface: #ffffff;
 
   --color-gold: #c9962c;
   --color-gold-dark: #a87a1c;
@@ -26,6 +27,32 @@
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
 
+/* Dark mode — the ink/paper roles invert (paper becomes ink-dark, ink becomes
+   pale), so every existing text-[color:var(--color-ink)] / bg-[color:var(--color-paper)]
+   usage adapts automatically. Accent hues are brightened for AA contrast on
+   a near-black background. */
+.dark {
+  --color-ink: #f5f3ee;
+  --color-ink-soft: #cfcdd6;
+  --color-paper: #121118;
+  --color-paper-dim: #1c1b25;
+  --color-paper-line: #333140;
+  --color-muted: #9997a3;
+  --color-surface: #1c1b27;
+
+  --color-gold: #dba94a;
+  --color-gold-dark: #f0c266;
+  --color-teal: #2bb3a3;
+  --color-teal-dark: #58d9c9;
+  --color-crimson: #e2585c;
+
+  --color-cat-general: #dba94a;
+  --color-cat-tech: #5b9bdb;
+  --color-cat-travel: #48b47a;
+  --color-cat-lifestyle: #c15a97;
+  --color-cat-education: #9b7ee0;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -34,6 +61,16 @@ body {
   background-color: var(--color-paper);
   color: var(--color-ink);
   font-family: var(--font-body);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+header,
+input,
+select,
+textarea {
+  transition-property: background-color, border-color, color, box-shadow;
+  transition-duration: 0.25s;
+  transition-timing-function: ease;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -217,7 +254,7 @@ body {
 }
 
 .card-lift {
-  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s ease, border-color 0.28s ease;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s ease, border-color 0.28s ease, background-color 0.25s ease;
 }
 .card-lift:hover {
   transform: translateY(-3px);

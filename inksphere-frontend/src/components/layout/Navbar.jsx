@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, PenSquare, Bookmark, LogOut, Menu, X } from 'lucide-react';
+import { Search, PenSquare, Bookmark, LogOut, Menu, X, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
+import { useTheme } from '../../hooks/useTheme';
 import Avatar from '../common/Avatar';
 
 export default function Navbar() {
   const { isAuthenticated, user, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
@@ -57,7 +59,7 @@ export default function Navbar() {
             onChange={(e) => setQuery(e.target.value)}
             type="search"
             placeholder="Search stories, writers…"
-            className="w-full rounded-full border border-[color:var(--color-paper-line)] bg-white/60 py-2 pl-9 pr-4 text-sm outline-none transition-all duration-200 focus:border-[color:var(--color-teal)] focus:bg-white focus:shadow-[0_0_0_4px_rgba(14,92,86,0.1)]"
+            className="w-full rounded-full border border-[color:var(--color-paper-line)] bg-[color:var(--color-surface)]/70 py-2 pl-9 pr-4 text-sm outline-none transition-all duration-200 focus:border-[color:var(--color-teal)] focus:bg-[color:var(--color-surface)] focus:shadow-[0_0_0_4px_rgba(14,92,86,0.1)]"
           />
         </form>
 
@@ -68,6 +70,15 @@ export default function Navbar() {
           <Link to="/trending" className="nav-link rounded-sm px-3 py-2 text-sm font-medium text-[color:var(--color-ink-soft)] transition-colors hover:text-[color:var(--color-ink)]">
             Trending
           </Link>
+
+          <button
+            onClick={toggleTheme}
+            className="btn-press rounded-full p-2 text-[color:var(--color-ink-soft)] hover:bg-[color:var(--color-paper-dim)]"
+            title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            aria-label="Toggle color theme"
+          >
+            {theme === 'dark' ? <Sun className="h-4.5 w-4.5" /> : <Moon className="h-4.5 w-4.5" />}
+          </button>
 
           {isAuthenticated ? (
             <>
@@ -106,9 +117,19 @@ export default function Navbar() {
           )}
         </nav>
 
-        <button className="ml-auto p-2 md:hidden" onClick={() => setMenuOpen((v) => !v)} aria-label="Toggle menu">
-          {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        <div className="ml-auto flex items-center gap-1 md:hidden">
+          <button
+            onClick={toggleTheme}
+            className="btn-press rounded-full p-2 text-[color:var(--color-ink-soft)] hover:bg-[color:var(--color-paper-dim)]"
+            title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            aria-label="Toggle color theme"
+          >
+            {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+          </button>
+          <button className="p-2" onClick={() => setMenuOpen((v) => !v)} aria-label="Toggle menu">
+            {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </div>
 
       {menuOpen && (
@@ -120,7 +141,7 @@ export default function Navbar() {
               onChange={(e) => setQuery(e.target.value)}
               type="search"
               placeholder="Search stories, writers…"
-              className="w-full rounded-full border border-[color:var(--color-paper-line)] bg-white/60 py-2 pl-9 pr-4 text-sm outline-none"
+              className="w-full rounded-full border border-[color:var(--color-paper-line)] bg-[color:var(--color-surface)]/70 py-2 pl-9 pr-4 text-sm outline-none"
             />
           </form>
           <div className="flex flex-col gap-1">

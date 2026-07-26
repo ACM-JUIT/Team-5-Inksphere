@@ -4,7 +4,7 @@ import BlogCard from './BlogCard';
 function SkeletonCard({ index }) {
   return (
     <div
-      className="flex animate-fade-up gap-4 overflow-hidden rounded-lg border border-[color:var(--color-paper-line)] bg-white/60 pl-4 sm:gap-5"
+      className="flex animate-fade-up gap-4 overflow-hidden rounded-lg border border-[color:var(--color-paper-line)] bg-[color:var(--color-surface)]/70 pl-4 sm:gap-5"
       style={{ borderLeft: '4px solid var(--color-paper-line)', animationDelay: `${index * 60}ms` }}
     >
       <div className="flex-1 py-4 pr-4 sm:py-5">
