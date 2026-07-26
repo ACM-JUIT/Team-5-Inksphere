@@ -16,15 +16,20 @@ export default function CategoryIndex() {
       <h1 className="mb-8 font-display text-3xl font-semibold text-[color:var(--color-ink)]">Browse by category</h1>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        {CATEGORIES.map((cat) => (
+        {CATEGORIES.map((cat, i) => (
           <Link
             key={cat.value}
             to={`/category/${cat.value}`}
-            className="group relative overflow-hidden rounded-sm border border-[color:var(--color-paper-line)] bg-white/50 p-6 pl-7 transition-shadow hover:shadow-[0_4px_24px_-8px_rgba(22,21,31,0.18)]"
-            style={{ borderLeft: `4px solid ${cat.color}` }}
+            className="card-lift group relative animate-fade-up overflow-hidden rounded-lg border border-[color:var(--color-paper-line)] bg-[color:var(--color-surface)]/70 p-6 pl-7"
+            style={{ borderLeft: `4px solid ${cat.color}`, animationDelay: `${i * 70}ms` }}
           >
-            <h2 className="font-display text-2xl font-semibold text-[color:var(--color-ink)] group-hover:underline decoration-2 underline-offset-4" style={{ textDecorationColor: cat.color }}>
-              {cat.value}
+            <h2 className="font-display text-2xl font-semibold text-[color:var(--color-ink)] transition-colors group-hover:text-[color:var(--color-teal-dark)]">
+              <span
+                className="bg-[length:0%_2px] bg-left-bottom bg-no-repeat pb-0.5 transition-[background-size] duration-300 ease-out group-hover:bg-[length:100%_2px]"
+                style={{ backgroundImage: `linear-gradient(${cat.color}, ${cat.color})` }}
+              >
+                {cat.value}
+              </span>
             </h2>
             <p className="mt-2 text-sm text-[color:var(--color-muted)]">{blurbs[cat.value]}</p>
           </Link>

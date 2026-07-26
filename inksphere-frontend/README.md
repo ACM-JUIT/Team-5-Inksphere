@@ -74,3 +74,35 @@ The visual identity ("ink & paper") pairs a Fraunces display serif with Inter fo
 and JetBrains Mono for meta/utility text. Each blog category has a dedicated color used as a
 "spine" accent on story cards and category tabs, evoking a library card catalog. Colors and
 type are defined as CSS variables in `src/index.css` under `@theme`.
+
+### First-visit splash screen
+
+`src/components/SplashScreen.jsx` plays a short ink-drop animation (drop falls, ripples, the
+wordmark rises) the first time someone opens the site in a browser session. It's gated by
+`sessionStorage` (see `SPLASH_SESSION_KEY` in `App.jsx`), so it won't replay on internal
+navigation, but it will play again in a new tab or after the tab is closed and reopened. The
+rest of the app mounts and starts fetching data underneath the splash, so content is ready the
+moment it fades out. It respects `prefers-reduced-motion` by shortening to a near-instant fade.
+
+To show it on every full page load instead of once per session, swap `sessionStorage` for a
+check you don't persist (or remove the check entirely). To retire it, remove the `SplashScreen`
+import/usage in `App.jsx`.
+
+### Dark mode
+
+Toggled from the moon/sun icon in the navbar (desktop and mobile). It's built entirely on the
+existing CSS variables in `src/index.css` — dark mode redefines the same `--color-*` custom
+properties under a `.dark` class on `<html>`, so most components needed no changes at all.
+
+- State lives in `src/context/ThemeContext.jsx`, persisted to `localStorage` only once the
+  person explicitly toggles it; until then it follows `prefers-color-scheme` live.
+- A small inline script in `index.html` applies the right class before first paint, so there's
+  no flash of the wrong theme on load.
+- `--color-surface` is a new token for card/input backgrounds that stays visually distinct from
+  the page background in both themes (previously some of those used a hardcoded `bg-white`).
+
+### Footer contact details
+
+`src/components/layout/Footer.jsx` ships with placeholder contact info
+(`hello@inksphere.com`, `+1 (800) 555-0142`) and placeholder RSS/newsletter/website links —
+swap these for your real ones before shipping.

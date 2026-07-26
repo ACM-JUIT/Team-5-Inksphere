@@ -44,11 +44,20 @@ export default function Home() {
   return (
     <div>
       {/* Hero */}
-      <section className="border-b border-[color:var(--color-paper-line)] bg-[color:var(--color-paper-dim)]">
-        <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 sm:px-8 sm:py-24 md:grid-cols-[1.3fr_1fr] md:items-center">
+      <section className="relative overflow-hidden border-b border-[color:var(--color-paper-line)] bg-[color:var(--color-paper-dim)]">
+        {/* Decorative floating accents */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+          <div className="animate-float-slow absolute -left-16 top-10 h-56 w-56 rounded-full bg-[color:var(--color-gold)]/20 blur-3xl" />
+          <div className="animate-float-slower absolute -right-10 top-24 h-72 w-72 rounded-full bg-[color:var(--color-teal)]/15 blur-3xl" />
+          <div className="animate-float-slow absolute bottom-0 left-1/3 h-40 w-40 rounded-full bg-[color:var(--color-cat-lifestyle)]/10 blur-3xl" />
+        </div>
+
+        <div className="relative mx-auto grid max-w-6xl gap-10 px-5 py-16 sm:px-8 sm:py-24 md:grid-cols-[1.3fr_1fr] md:items-center">
           <div>
-            <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-[color:var(--color-teal)]">Volume I &middot; Est. 2026</p>
-            <h1 className="font-display text-4xl font-semibold leading-[1.1] text-[color:var(--color-ink)] sm:text-5xl md:text-6xl">
+            <p className="mb-4 animate-fade-up font-mono text-xs uppercase tracking-[0.2em] text-[color:var(--color-teal)]">
+              Volume I &middot; Est. 2026
+            </p>
+            <h1 className="animate-fade-up font-display text-4xl font-semibold leading-[1.1] text-[color:var(--color-ink)] sm:text-5xl md:text-6xl" style={{ animationDelay: '80ms' }}>
               Ideas worth
               <br />
               <span className="ink-underline">
@@ -58,11 +67,11 @@ export default function Home() {
                 </svg>
               </span>
             </h1>
-            <p className="mt-6 max-w-md text-lg text-[color:var(--color-muted)]">
+            <p className="mt-6 max-w-md animate-fade-up text-lg text-[color:var(--color-muted)]" style={{ animationDelay: '160ms' }}>
               InkSphere is a quiet corner of the internet for essays, field notes and long-form
               thinking — written by people, read by people.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8 flex animate-fade-up flex-wrap gap-3" style={{ animationDelay: '240ms' }}>
               <Button as={Link} to={isAuthenticated ? '/write' : '/register'} variant="primary" size="lg">
                 {isAuthenticated ? 'Start writing' : 'Join InkSphere'} <ArrowRight className="h-4 w-4" />
               </Button>
@@ -72,14 +81,14 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="hidden justify-self-end md:block">
+          <div className="hidden animate-float-slow justify-self-end md:block">
             <svg width="220" height="260" viewBox="0 0 220 260" fill="none" aria-hidden="true">
-              <rect x="20" y="10" width="160" height="220" rx="2" fill="white" stroke="var(--color-paper-line)" strokeWidth="2" />
+              <rect x="20" y="10" width="160" height="220" rx="4" fill="var(--color-surface)" stroke="var(--color-paper-line)" strokeWidth="2" />
               <rect x="20" y="10" width="10" height="220" fill="var(--color-cat-tech)" />
               <line x1="52" y1="50" x2="152" y2="50" stroke="var(--color-paper-line)" strokeWidth="2" />
               <line x1="52" y1="70" x2="164" y2="70" stroke="var(--color-paper-line)" strokeWidth="2" />
               <line x1="52" y1="90" x2="140" y2="90" stroke="var(--color-paper-line)" strokeWidth="2" />
-              <rect x="44" y="16" width="150" height="210" rx="2" fill="var(--color-paper)" stroke="var(--color-ink)" strokeWidth="2" />
+              <rect x="44" y="16" width="150" height="210" rx="4" fill="var(--color-surface)" stroke="var(--color-ink)" strokeWidth="2" />
               <rect x="44" y="16" width="10" height="210" fill="var(--color-gold)" />
               <line x1="76" y1="56" x2="176" y2="56" stroke="var(--color-paper-line)" strokeWidth="2" />
               <line x1="76" y1="76" x2="188" y2="76" stroke="var(--color-paper-line)" strokeWidth="2" />
@@ -103,8 +112,8 @@ export default function Home() {
             <Loader label="Fetching trending stories" />
           ) : trending.length > 0 ? (
             <div className="grid gap-4 sm:grid-cols-3">
-              {trending.map((blog) => (
-                <BlogCard key={blog._id} blog={blog} />
+              {trending.map((blog, i) => (
+                <BlogCard key={blog._id} blog={blog} index={i} />
               ))}
             </div>
           ) : null}
