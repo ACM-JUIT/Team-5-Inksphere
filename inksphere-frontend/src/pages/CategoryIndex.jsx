@@ -20,7 +20,7 @@ export default function CategoryIndex() {
           <Link
             key={cat.value}
             to={`/category/${cat.value}`}
-            className="card-lift group relative animate-fade-up overflow-hidden rounded-lg border border-[color:var(--color-paper-line)] bg-white/60 p-6 pl-7"
+            className="card-lift group relative animate-fade-up overflow-hidden rounded-lg border border-[color:var(--color-paper-line)] bg-[color:var(--color-surface)]/70 p-6 pl-7"
             style={{ borderLeft: `4px solid ${cat.color}`, animationDelay: `${i * 70}ms` }}
           >
             <h2 className="font-display text-2xl font-semibold text-[color:var(--color-ink)] transition-colors group-hover:text-[color:var(--color-teal-dark)]">

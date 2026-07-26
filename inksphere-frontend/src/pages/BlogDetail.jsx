@@ -14,7 +14,7 @@ import CommentSection from '../components/blog/CommentSection';
 
 export default function BlogDetail() {
   const { id } = useParams();
-  const { user, isAuthenticated, initializing } = useAuth();
+  const { user, isAuthenticated, initializing, setUser } = useAuth();
   const navigate = useNavigate();
 
   const [blog, setBlog] = useState(null);
@@ -83,11 +83,26 @@ export default function BlogDetail() {
     setBookmarked(next);
     setBookmarkPop(true);
     setTimeout(() => setBookmarkPop(false), 450);
+
+    // The bookmarked flag is derived from the session's user.bookmarks list,
+    // not from the blog itself — so unlike likes, it won't self-correct on
+    // the next fetch unless we update the session here too.
+    const applyBookmarkChange = (shouldAdd) =>
+      setUser((prev) => {
+        if (!prev) return prev;
+        const bookmarks = shouldAdd
+          ? [...(prev.bookmarks || []), blog._id]
+          : (prev.bookmarks || []).filter((bookmarkId) => String(bookmarkId) !== String(blog._id));
+        return { ...prev, bookmarks };
+      });
+
+    applyBookmarkChange(next);
     try {
       await toggleBookmark(id);
       toast.success(next ? 'Saved to bookmarks' : 'Removed from bookmarks');
     } catch (error) {
       setBookmarked(!next);
+      applyBookmarkChange(!next);
       toast.error(extractErrorMessage(error, 'Could not update bookmark.'));
     }
   };

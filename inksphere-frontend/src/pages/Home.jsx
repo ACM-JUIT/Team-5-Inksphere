@@ -83,12 +83,12 @@ export default function Home() {
 
           <div className="hidden animate-float-slow justify-self-end md:block">
             <svg width="220" height="260" viewBox="0 0 220 260" fill="none" aria-hidden="true">
-              <rect x="20" y="10" width="160" height="220" rx="4" fill="white" stroke="var(--color-paper-line)" strokeWidth="2" />
+              <rect x="20" y="10" width="160" height="220" rx="4" fill="var(--color-surface)" stroke="var(--color-paper-line)" strokeWidth="2" />
               <rect x="20" y="10" width="10" height="220" fill="var(--color-cat-tech)" />
               <line x1="52" y1="50" x2="152" y2="50" stroke="var(--color-paper-line)" strokeWidth="2" />
               <line x1="52" y1="70" x2="164" y2="70" stroke="var(--color-paper-line)" strokeWidth="2" />
               <line x1="52" y1="90" x2="140" y2="90" stroke="var(--color-paper-line)" strokeWidth="2" />
-              <rect x="44" y="16" width="150" height="210" rx="4" fill="var(--color-paper)" stroke="var(--color-ink)" strokeWidth="2" />
+              <rect x="44" y="16" width="150" height="210" rx="4" fill="var(--color-surface)" stroke="var(--color-ink)" strokeWidth="2" />
               <rect x="44" y="16" width="10" height="210" fill="var(--color-gold)" />
               <line x1="76" y1="56" x2="176" y2="56" stroke="var(--color-paper-line)" strokeWidth="2" />
               <line x1="76" y1="76" x2="188" y2="76" stroke="var(--color-paper-line)" strokeWidth="2" />

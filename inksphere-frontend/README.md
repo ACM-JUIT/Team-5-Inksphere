@@ -87,3 +87,22 @@ moment it fades out. It respects `prefers-reduced-motion` by shortening to a nea
 To show it on every full page load instead of once per session, swap `sessionStorage` for a
 check you don't persist (or remove the check entirely). To retire it, remove the `SplashScreen`
 import/usage in `App.jsx`.
+
+### Dark mode
+
+Toggled from the moon/sun icon in the navbar (desktop and mobile). It's built entirely on the
+existing CSS variables in `src/index.css` — dark mode redefines the same `--color-*` custom
+properties under a `.dark` class on `<html>`, so most components needed no changes at all.
+
+- State lives in `src/context/ThemeContext.jsx`, persisted to `localStorage` only once the
+  person explicitly toggles it; until then it follows `prefers-color-scheme` live.
+- A small inline script in `index.html` applies the right class before first paint, so there's
+  no flash of the wrong theme on load.
+- `--color-surface` is a new token for card/input backgrounds that stays visually distinct from
+  the page background in both themes (previously some of those used a hardcoded `bg-white`).
+
+### Footer contact details
+
+`src/components/layout/Footer.jsx` ships with placeholder contact info
+(`hello@inksphere.com`, `+1 (800) 555-0142`) and placeholder RSS/newsletter/website links —
+swap these for your real ones before shipping.

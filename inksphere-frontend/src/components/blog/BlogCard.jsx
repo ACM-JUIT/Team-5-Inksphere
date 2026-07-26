@@ -10,7 +10,7 @@ export default function BlogCard({ blog, index = 0 }) {
   return (
     <Link
       to={`/blog/${blog._id}`}
-      className="card-lift group relative flex animate-fade-up gap-4 overflow-hidden rounded-lg border border-[color:var(--color-paper-line)] bg-white/60 pl-4 sm:gap-5"
+      className="card-lift group relative flex animate-fade-up gap-4 overflow-hidden rounded-lg border border-[color:var(--color-paper-line)] bg-[color:var(--color-surface)]/70 pl-4 sm:gap-5"
       style={{ borderLeft: `4px solid ${spine}`, animationDelay: `${Math.min(index, 8) * 60}ms` }}
     >
       <div className="flex-1 py-4 pr-4 sm:py-5">
